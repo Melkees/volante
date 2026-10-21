@@ -1,0 +1,493 @@
+- banner:
+  - navigation:
+    - link "CarroLens":
+      - /url: /
+      - img "CarroLens"
+    - link " Buscar":
+      - /url: /veiculos
+      - generic: 
+      - generic: Buscar
+    - link " Comparar":
+      - /url: /comparar
+      - generic: 
+      - generic: Comparar
+    - link " Decida Meu Carro":
+      - /url: /recomendacoes/new
+      - generic: 
+      - generic: Decida Meu Carro
+    - link " Financiamento":
+      - /url: /financiamento
+      - generic: 
+      - generic: Financiamento
+    - link " Calculadora":
+      - /url: /calculadora
+      - generic: 
+      - generic: Calculadora
+    - link " Rankings":
+      - /url: /rankings
+      - generic: 
+      - generic: Rankings
+    - button " Parceiros ":
+      - generic: 
+      - generic: Parceiros
+      - generic: 
+    - link " Entrar":
+      - /url: /users/sign_in
+      - generic: 
+      - text: Entrar
+    - text: 
+- text:             
+- main:
+  - generic: FIPE · FENABRAVE · IA · atualizado mensalmente
+  - heading "A IA que te ajuda a escolher o carro certo" [level=1]
+  - paragraph: Compare carros, consulte preços FIPE e fichas técnicas completas e deixe nossa IA recomendar o modelo certo para o seu perfil.
+  - paragraph: 5.000+
+  - paragraph:
+    - generic: 
+    - text: modelos
+  - paragraph: 87+
+  - paragraph:
+    - generic: 
+    - text: marcas
+  - paragraph: 100%
+  - paragraph:
+    - generic: 
+    - text: dados FIPE oficiais
+  - heading "Explorar por Categoria" [level=2]
+  - paragraph: Encontre o veículo certo para o seu estilo de vida
+  - link "Carros hatch  Hatch Onix, Polo, HB20... Ver todos":
+    - /url: /veiculos?category=hatch
+    - img "Carros hatch"
+    - generic: 
+    - generic: Hatch
+    - paragraph: Onix, Polo, HB20...
+    - generic: Ver todos
+  - link "SUVs  SUV Compass, T-Cross, Creta... Ver todos":
+    - /url: /veiculos?category=suv
+    - img "SUVs"
+    - generic: 
+    - generic: SUV
+    - paragraph: Compass, T-Cross, Creta...
+    - generic: Ver todos
+  - link "Sedans  Sedan Corolla, Cronos, City... Ver todos":
+    - /url: /veiculos?category=sedan
+    - img "Sedans"
+    - generic: 
+    - generic: Sedan
+    - paragraph: Corolla, Cronos, City...
+    - generic: Ver todos
+  - link "Picapes  Pickup Strada, Ranger, Hilux... Ver todos":
+    - /url: /veiculos?category=pickup
+    - img "Picapes"
+    - generic: 
+    - generic: Pickup
+    - paragraph: Strada, Ranger, Hilux...
+    - generic: Ver todos
+  - generic: 
+  - text: Combustível costuma ser o maior custo recorrente de quem dirige no dia a dia
+  - generic: 
+  - text: Gasolina
+  - generic: 
+  - text: Etanol
+  - generic: 
+  - text: Elétrico
+  - generic: 
+  - text: Híbrido
+  - heading "Elétrico compensa pra você?" [level=2]
+  - paragraph: Descubra em 30 segundos se a troca vale a pena, considerando quanto você roda, o preço do carro e a energia elétrica na sua região.
+  - paragraph: Quem trocou para elétrico e roda 1.500 km/mês economiza até R$ 20.000 em 5 anos. Mas será que esse é o seu caso?
+  - generic: 
+  - generic: Payback elétrico vs gasolina
+  - generic: 
+  - generic: Elétrico vs híbrido plug-in
+  - generic: 
+  - generic: IPVA + seguro incluídos
+  - generic: 
+  - generic: Projeção de 1 a 5 anos
+  - link " Descobrir se vale a pena ":
+    - /url: /calculadora#section-comparar
+    - generic: 
+    - text: Descobrir se vale a pena
+    - generic: 
+  - link " Comparar combustíveis":
+    - /url: /calculadora
+    - generic: 
+    - text: Comparar combustíveis
+  - paragraph: Exemplo ilustrativo
+  - paragraph:
+    - generic: 
+    - text: Economia em 5 anos
+  - paragraph: R$ 20.640
+  - paragraph: BYD Dolphin vs VW Polo · 1.500 km/mês
+  - paragraph:
+    - generic: 
+    - text: Custo mensal por combustível
+  - paragraph: Gasolina R$ 6,20/L · Energia R$ 0,85/kWh
+  - generic: 
+  - generic: VW Polo (12 km/L)
+  - generic: R$ 775/mês
+  - generic: 
+  - generic: Corolla Cross HEV
+  - generic: R$ 517/mês
+  - generic: 
+  - generic: BYD Dolphin
+  - generic: R$ 191/mês
+  - paragraph:
+    - generic: 
+    - text: Ponto de equilíbrio (payback)
+  - generic: 
+  - generic: BYD Dolphin vence o Polo em
+  - generic: 24 meses
+  - generic: 
+  - generic: Corolla HEV vence o Polo em
+  - generic: 36 meses
+  - link " Calcular com meus dados":
+    - /url: /calculadora#section-comparar
+    - generic: 
+    - text: Calcular com meus dados
+  - text:  
+  - heading "O que você pode fazer no CarroLens" [level=2]
+  - paragraph: Acesso rápido a todas as ferramentas
+  - link " Buscar Veículos Catálogo completo com fichas técnicas e preços FIPE Explorar ":
+    - /url: /veiculos
+    - generic: 
+    - heading "Buscar Veículos" [level=3]
+    - paragraph: Catálogo completo com fichas técnicas e preços FIPE
+    - text: Explorar
+    - generic: 
+  - link " Decida Meu Carro IA 10 perguntas e a IA entrega opções rankeadas para você Gerar recomendação ":
+    - /url: /recomendacoes/new
+    - generic: 
+    - heading "Decida Meu Carro IA" [level=3]
+    - paragraph: 10 perguntas e a IA entrega opções rankeadas para você
+    - text: Gerar recomendação
+    - generic: 
+  - link " Comparar IA Até 4 veículos lado a lado. A IA aponta o vencedor e o melhor custo-benefício Comparar ":
+    - /url: /comparar
+    - generic: 
+    - heading "Comparar IA" [level=3]
+    - paragraph: Até 4 veículos lado a lado. A IA aponta o vencedor e o melhor custo-benefício
+    - text: Comparar
+    - generic: 
+  - link " Calculadora de Payback Inédito Elétrico vs híbrido vs gasolina com projeção de 5 anos Calcular ":
+    - /url: /calculadora#section-comparar
+    - generic: 
+    - heading "Calculadora de Payback Inédito" [level=3]
+    - paragraph: Elétrico vs híbrido vs gasolina com projeção de 5 anos
+    - text: Calcular
+    - generic: 
+  - link " Financiamento CDC, Leasing, Consórcio e Assinatura comparados Simular ":
+    - /url: /financiamento?origin=home
+    - generic: 
+    - heading "Financiamento" [level=3]
+    - paragraph: CDC, Leasing, Consórcio e Assinatura comparados
+    - text: Simular
+    - generic: 
+  - link " Rankings Os mais vendidos do Brasil com dados FENABRAVE mensais Ver ranking ":
+    - /url: /rankings
+    - generic: 
+    - heading "Rankings" [level=3]
+    - paragraph: Os mais vendidos do Brasil com dados FENABRAVE mensais
+    - text: Ver ranking
+    - generic: 
+  - generic: 
+  - text: Inteligência Artificial · Dados FIPE reais
+  - heading "Não sabe qual carro comprar? Deixa a IA decidir com você." [level=2]:
+    - text: Não sabe qual carro comprar?
+    - text: Deixa a IA decidir com você.
+  - paragraph: "Responda 10 perguntas sobre seu perfil: orçamento, uso diário, família, combustível e prioridades. Nossa IA cruza tudo isso com preços FIPE reais e entrega opções rankeadas com análise honesta."
+  - generic: "1"
+  - paragraph: Perfil em 10 perguntas
+  - paragraph: Orçamento, uso, perfil familiar, km por mês, combustível, câmbio e suas prioridades
+  - generic: "2"
+  - paragraph: IA analisa o catálogo com preços FIPE
+  - paragraph: Especificações técnicas reais, consumo INMETRO e preço atualizado do mês
+  - generic: "3"
+  - paragraph: Opções rankeadas com análise honesta
+  - paragraph: Por que cada um serve para você, pontos fortes, fracos e comparativo entre eles
+  - generic: "4"
+  - paragraph: Ficha técnica completa + comparativo direto
+  - paragraph: Link direto para cada veículo e opção de comparar lado a lado as opções recomendadas
+  - link " Gerar minha recomendação ":
+    - /url: /recomendacoes/new
+    - generic: 
+    - text: Gerar minha recomendação
+    - generic: 
+  - paragraph: Exemplo ilustrativo
+  - generic: "Recomendação #1"
+  - generic: No catálogo
+  - paragraph: Volkswagen T-Cross 1.4 TSI · 2024
+  - paragraph: R$ 118.990
+  - generic: FIPE
+  - paragraph:
+    - generic: 
+    - text: Por que este veículo?
+  - paragraph: Combina orçamento de até R$ 120k com uso misto cidade/estrada. Motor 1.4 turbo entrega 150 cv com bom consumo no dia a dia.
+  - paragraph:
+    - generic: 
+    - text: Pontos fortes
+  - paragraph:
+    - generic: 
+    - text: 6 airbags de série
+  - paragraph:
+    - generic: 
+    - text: 0-100 em 8,2s
+  - paragraph:
+    - generic: 
+    - text: 13,4 km/L cidade
+  - paragraph:
+    - generic: 
+    - text: Atenção
+  - paragraph:
+    - generic: 
+    - text: Próximo ao teto do orçamento
+  - paragraph:
+    - generic: 
+    - text: Porta-malas menor
+  - paragraph: + 4 outras opções rankeadas pela IA
+  - text:  
+  - generic: 
+  - text: CDC · Leasing · Consórcio · Assinatura
+  - heading "Qual a melhor forma de adquirir seu veículo?" [level=2]
+  - paragraph: "Compare as 4 modalidades lado a lado: parcela mensal, juros totais e quando cada uma faz sentido para o seu perfil."
+  - generic: 
+  - generic: 4 modalidades
+  - generic: 
+  - generic: Juros totais calculados
+  - generic: 
+  - generic: Melhor opção destacada
+  - generic: 
+  - generic: Comparativo completo
+  - link " Simular Agora ":
+    - /url: /financiamento?origin=home
+    - generic: 
+    - text: Simular Agora
+    - generic: 
+  - generic: 
+  - paragraph: R$ 80.000 · Entrada 20%
+  - paragraph: "Veículo financiado: R$ 64.000"
+  - generic: 
+  - generic: CDC
+  - text: 48x R$ 1.792
+  - paragraph: "Total: R$ 86.016"
+  - generic: 
+  - generic: Leasing
+  - text: 48x R$ 1.620
+  - paragraph: "Total: R$ 77.760"
+  - generic: 
+  - generic: Consórcio
+  - text: 60x R$ 1.067
+  - paragraph: 0% de juros!
+  - generic: 
+  - generic: Assinatura
+  - text: R$ 3.500/mês
+  - paragraph: Sem entrada
+  - generic: 
+  - paragraph: "Consórcio: menor custo total"
+  - text:  
+  - generic: 
+  - text: Fonte oficial FENABRAVE · Setembro/2026
+  - heading "Ranking de Vendas" [level=2]
+  - paragraph: Os veículos e marcas mais vendidos do Brasil, com dados oficiais atualizados mensalmente.
+  - generic: 
+  - paragraph: 216,366
+  - paragraph: automóveis emplacados em Setembro/2026
+  - generic: 
+  - paragraph: +21.2%
+  - paragraph: em relação a Setembro/2025
+  - generic: 
+  - paragraph: 1,728,390
+  - paragraph: automóveis acumulado em 2026
+  - generic: 
+  - paragraph: 59,156
+  - paragraph: eletrificados emplacados
+  - link " Ver Ranking Completo ":
+    - /url: /rankings#rankings-section
+    - generic: 
+    - text: Ver Ranking Completo
+    - generic: 
+  - heading " Top 5 Marcas" [level=3]:
+    - generic: 
+    - text: Top 5 Marcas
+  - generic: "1"
+  - generic: VW - VolksWagen
+  - generic: 37,098
+  - generic: "2"
+  - generic: Fiat
+  - generic: 28,873
+  - generic: "3"
+  - generic: GM - Chevrolet
+  - generic: 23,489
+  - generic: "4"
+  - generic: BYD
+  - generic: 22,171
+  - generic: "5"
+  - generic: Hyundai
+  - generic: 14,907
+  - link "Ver ranking de marcas ":
+    - /url: /rankings?view=marcas#section-marcas
+    - text: Ver ranking de marcas
+    - generic: 
+  - heading " Mercado de Eletrificados 59,156 un." [level=3]:
+    - generic: 
+    - text: Mercado de Eletrificados
+    - generic: 59,156 un.
+  - paragraph:
+    - generic: 
+    - text: Híbridos
+    - generic: (28,965 un.)
+  - generic: "1"
+  - generic: BYD
+  - generic: 7,854
+  - generic: "2"
+  - generic: GWM
+  - generic: 7,017
+  - generic: "3"
+  - generic: Omoda
+  - generic: 6,495
+  - generic: "4"
+  - generic: Jeep
+  - generic: 4,129
+  - generic: "5"
+  - generic: Toyota
+  - generic: 3,470
+  - paragraph:
+    - generic: 
+    - text: Elétricos
+    - generic: (20,733 un.)
+  - generic: "1"
+  - generic: BYD
+  - generic: 14,317
+  - generic: "2"
+  - generic: GEELY
+  - generic: 3,119
+  - generic: "3"
+  - generic: GAC
+  - generic: 1,755
+  - generic: "4"
+  - generic: GM - Chevrolet
+  - generic: "986"
+  - generic: "5"
+  - generic: MG
+  - generic: "556"
+  - link "Ver ranking de eletrificados ":
+    - /url: /rankings?view=eletrificados#section-eletrificados
+    - text: Ver ranking de eletrificados
+    - generic: 
+  - heading " Top 5 Veículos Mais Vendidos" [level=3]:
+    - generic: 
+    - text: Top 5 Veículos Mais Vendidos
+  - generic: "1"
+  - link "Fiat Strada":
+    - /url: /veiculos/fiat-strada
+    - text: Fiat
+    - text: Strada
+  - generic: 16,002
+  - generic: unid.
+  - generic: "2"
+  - link "VW - VolksWagen Polo":
+    - /url: /veiculos/vw-volkswagen-polo
+    - text: VW - VolksWagen
+    - text: Polo
+  - generic: 11,095
+  - generic: unid.
+  - generic: "3"
+  - link "BYD Dolphin Mini":
+    - /url: /veiculos/byd-dolphin-mini
+    - text: BYD
+    - text: Dolphin Mini
+  - generic: 9,385
+  - generic: unid.
+  - generic: "4"
+  - link "VW - VolksWagen T-Cross":
+    - /url: /veiculos/vw-volkswagen-t-cross
+    - text: VW - VolksWagen
+    - text: T-Cross
+  - generic: 9,339
+  - generic: unid.
+  - generic: "5"
+  - link "VW - VolksWagen Tera":
+    - /url: /veiculos/vw-volkswagen-tera
+    - text: VW - VolksWagen
+    - text: Tera
+  - generic: 8,725
+  - generic: unid.
+  - link "Ver top 50 completo ":
+    - /url: /rankings#ranking-completo
+    - text: Ver top 50 completo
+    - generic: 
+  - link "Acessar o Blog do CarroLens":
+    - /url: /blog
+    - generic: 
+    - generic: Blog
+- contentinfo:
+  - img "CarroLens"
+  - paragraph: "Plataforma automotiva gratuita: compare modelos, simule custos de combustível, financiamento e descubra o carro certo com IA. Dados oficiais FIPE e FENABRAVE."
+  - link "Instagram":
+    - /url: https://instagram.com/carrolens
+    - generic: 
+  - link "TikTok":
+    - /url: https://www.tiktok.com/@carrolens
+    - generic: 
+  - link "X":
+    - /url: https://x.com/carrolens
+    - generic: 
+  - link "Email":
+    - /url: mailto:suporte@carrolens.com.br
+    - generic: 
+  - link "suporte@carrolens.com.br":
+    - /url: mailto:suporte@carrolens.com.br
+  - heading "Ferramentas" [level=3]
+  - list:
+    - link "Buscar Veículos":
+      - /url: /veiculos
+    - link "Comparar":
+      - /url: /comparar
+    - link "Decida Meu Carro":
+      - /url: /recomendacoes/new
+    - link "Calculadora de Custos":
+      - /url: /calculadora
+    - link "Financiamento":
+      - /url: /financiamento
+    - link "Rankings de Vendas":
+      - /url: /rankings
+    - link "Blog":
+      - /url: /blog
+  - heading "Parceiros" [level=3]
+  - list:
+    - link "Concessionárias":
+      - /url: /parceiros/concessionarias
+    - link "Seguros":
+      - /url: /parceiros/seguros
+    - link "Vistorias":
+      - /url: /parceiros/vistorias
+    - link "Seja um Parceiro":
+      - /url: /parceiros
+  - heading "Sua Conta" [level=3]
+  - list:
+    - link "Entrar":
+      - /url: /users/sign_in
+    - link "Criar Conta":
+      - /url: /users/sign_up
+  - generic: 
+  - paragraph: Tem alguma sugestão ou problema?
+  - paragraph: Seu feedback nos ajuda a melhorar a plataforma
+  - button " Enviar Feedback":
+    - generic: 
+    - text: Enviar Feedback
+  - text:         
+  - paragraph: © 2026 CarroLens
+  - paragraph:
+    - text: "Dados oficiais:"
+    - strong: Tabela FIPE
+    - text: "· Rankings:"
+    - strong: FENABRAVE
+  - navigation:
+    - link "Sobre":
+      - /url: /sobre
+    - generic: ·
+    - link "Política de Privacidade":
+      - /url: /privacidade
+    - generic: ·
+    - link "Termos de Uso":
+      - /url: /termos

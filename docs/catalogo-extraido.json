@@ -1,0 +1,83 @@
+{
+  "_meta": {
+    "gerado_em": "2026-10-21",
+    "fontes": [
+      "docs/dom-snapshot-home.txt",
+      "docs/evidencias/dropdown-snapshot.txt",
+      "docs/report.md",
+      "docs/plan.md",
+      "docs/evidencias/ (imagens) e docs/fonte-video/ (vídeos: sem texto extraível)",
+      "app/server/seed.mjs + GET /api/veiculos (catálogo atual, 14 veículos)"
+    ],
+    "criterio": "Somente dados presentes nos snapshots e AUSENTES do seed/API. Preços apenas quando explícitos no snapshot."
+  },
+  "veiculos": [
+    {
+      "nome": "Toyota Corolla Cross HEV",
+      "marca": "Toyota",
+      "categoria": null,
+      "preco": null,
+      "fonte": "dom-snapshot-home.txt:130",
+      "obs": "Citado apenas no exemplo ilustrativo da calculadora de payback (custo R$ 517/mês, vence o Polo em 36 meses — linhas 130-143). Não é card de catálogo no site original; categoria não declarada no snapshot. Já existe parcialmente no highlight 'payback' do seed, mas NÃO no catálogo /api/veiculos."
+    },
+    {
+      "nome": "BYD Dolphin",
+      "marca": "BYD",
+      "categoria": null,
+      "preco": null,
+      "fonte": "dom-snapshot-home.txt:133",
+      "obs": "Versão 'BYD Dolphin' (não confundir com 'BYD Dolphin Mini', já catalogada). Aparece só no exemplo ilustrativo do payback (R$ 191/mês, vence o Polo em 24 meses — linhas 133-141). Marca/versão explícitas no snapshot; categoria não declarada."
+    }
+  ],
+  "blogPosts": [],
+  "_blogNota": "O snapshot só mostra o CTA 'Acessar o Blog do CarroLens' (dom-snapshot-home.txt:419-422). Nenhum título, subtítulo ou post de blog aparece em docs/.",
+  "outros": {
+    "divergencia_hero_stats": {
+      "snapshot": "5.000+ modelos · 87+ marcas · 100% dados FIPE oficiais (dom-snapshot-home.txt:44-55)",
+      "seed_atual": "4.860+ modelos · 84+ marcas · 97% (app/server/seed.mjs:15-17, keys hero_modelos/hero_marcas/hero_fipe)",
+      "obs": "O DOM snapshot (texto do site original) diverge dos valores no seed, que vieram do vídeo. O snapshot é o texto canônico do site; decidir qual fonte prevalece é decisão do orquestrador."
+    },
+    "divergencia_nomes_ranking_marcas": {
+      "snapshot": "VW - VolksWagen (dom-snapshot-home.txt:313)",
+      "seed_atual": "VW (app/server/seed.mjs:59)",
+      "obs": "Mesma entidade, rótulo diferente."
+    },
+    "divergencia_formato_ranking_stats": {
+      "snapshot": "216.366 / 1.728.390 / 59.156 e +21,2% (dom-snapshot-home.txt:293-303)",
+      "seed_atual": "idêntico em valor (app/server/seed.mjs:19-22) — sem divergência de dado"
+    },
+    "specs_tcross_nao_estruturadas": {
+      "dado": "Motor 1.4 turbo, 150 cv (dom-snapshot-home.txt:225); 6 airbags de série (231); 0-100 em 8,2s (234); 13,4 km/L cidade (237)",
+      "seed_atual": "pontos_fortes do highlight 'recomendacao' trazem as strings (seed.mjs:132), mas '150 cv'/'motor 1.4 turbo' NÃO estão no seed — estão só no texto 'Por que este veículo' (linha 225 do snapshot), ausente do payload",
+      "obs": "Se o app quiser ficha técnica estruturada do T-Cross 1.4 TSI 2024, estes são os únicos valores reais disponíveis."
+    },
+    "contexto_recomendacao_ia": {
+      "dado": "Orçamento de até R$ 120k, uso misto cidade/estrada (dom-snapshot-home.txt:225); rodapé '+ 4 outras opções rankeadas pela IA' (247)",
+      "obs": "Texto de contexto do card IA; o rodapé já está no seed (seed.mjs:134), o texto do porquê não."
+    },
+    "parametros_calculadora": {
+      "dado": "1.500 km/mês, Gasolina R$ 6,20/L, Energia R$ 0,85/kWh, economia R$ 20.640 em 5 anos (dom-snapshot-home.txt:98,120-125)",
+      "seed_atual": "já está no seed (highlight payback, seed.mjs:97-124) — sem divergência"
+    },
+    "parametros_financiamento": {
+      "dado": "Exemplo R$ 80.000, entrada 20%, financiado R$ 64.000; CDC 48x R$ 1.792 (total R$ 86.016); Leasing 48x R$ 1.620 (total R$ 77.760); Consórcio 60x R$ 1.067 (0% juros); Assinatura R$ 3.500/mês sem entrada (dom-snapshot-home.txt:267-284)",
+      "seed_atual": "já está no seed (highlight financiamento, seed.mjs:139-158) — sem divergência"
+    },
+    "links_parceiros": {
+      "dado": "/parceiros/concessionarias, /parceiros/seguros, /parceiros/vistorias, /parceiros (dom-snapshot-home.txt:458-465)",
+      "obs": "Estrutura de navegação, não dado de veículo. Report.md lista páginas internas como fora de escopo."
+    },
+    "contatos_e_sociais": {
+      "dado": "Instagram/TikTok/X @carrolens, suporte@carrolens.com.br (dom-snapshot-home.txt:426-439)",
+      "obs": "Dados da marca original CarroLens; o app se chama Volante, usar só se o dono quiser espelhar."
+    },
+    "fontes_oficiais": {
+      "dado": "Rankings: FENABRAVE Setembro/2026; preços: Tabela FIPE; consumo: INMETRO (dom-snapshot-home.txt:289,481-484,204)",
+      "obs": "Citações de fonte, já implícitas no seed via hints."
+    },
+    "afirmacao_catalogo_original": {
+      "dado": "5.000+ modelos, 87+ marcas no site original",
+      "obs": "Indica que o site original tem MUITO mais veículos que os 14 do app, mas o snapshot da home não lista nenhum além dos já cobertos — não há como garimpar mais modelos sem capturar /veiculos ou /rankings (top 50) do site original."
+    }
+  }
+}

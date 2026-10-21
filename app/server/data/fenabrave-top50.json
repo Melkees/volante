@@ -1,0 +1,302 @@
+[
+ {
+  "position": 1,
+  "name": "Fiat Strada",
+  "value": 16002,
+  "href": "/busca"
+ },
+ {
+  "position": 2,
+  "name": "VW - VolksWagen Polo",
+  "value": 11095,
+  "href": "/busca"
+ },
+ {
+  "position": 3,
+  "name": "BYD Dolphin Mini",
+  "value": 9385,
+  "href": "/busca"
+ },
+ {
+  "position": 4,
+  "name": "VW - VolksWagen T-Cross",
+  "value": 9339,
+  "href": "/busca"
+ },
+ {
+  "position": 5,
+  "name": "VW - VolksWagen Tera",
+  "value": 8725,
+  "href": "/busca"
+ },
+ {
+  "position": 6,
+  "name": "Fiat Argo",
+  "value": 8603,
+  "href": "/busca"
+ },
+ {
+  "position": 7,
+  "name": "Fiat Pulse",
+  "value": 7150,
+  "href": "/busca"
+ },
+ {
+  "position": 8,
+  "name": "GM - Chevrolet Onix",
+  "value": 7133,
+  "href": "/busca"
+ },
+ {
+  "position": 9,
+  "name": "GWM Haval H6",
+  "value": 6433,
+  "href": "/busca"
+ },
+ {
+  "position": 10,
+  "name": "Fiat Mobi",
+  "value": 6395,
+  "href": "/busca"
+ },
+ {
+  "position": 11,
+  "name": "Hyundai HB20",
+  "value": 6314,
+  "href": "/busca"
+ },
+ {
+  "position": 12,
+  "name": "Renault Kwid",
+  "value": 6142,
+  "href": "/busca"
+ },
+ {
+  "position": 13,
+  "name": "Fiat Toro",
+  "value": 5539,
+  "href": "/busca"
+ },
+ {
+  "position": 14,
+  "name": "GM - Chevrolet Onix Plus",
+  "value": 5350,
+  "href": "/busca"
+ },
+ {
+  "position": 15,
+  "name": "Toyota Yaris Cross",
+  "value": 5288,
+  "href": "/busca"
+ },
+ {
+  "position": 16,
+  "name": "Hyundai Creta",
+  "value": 5092,
+  "href": "/busca"
+ },
+ {
+  "position": 17,
+  "name": "Fiat Fastback",
+  "value": 4947,
+  "href": "/busca"
+ },
+ {
+  "position": 18,
+  "name": "VW - VolksWagen Saveiro",
+  "value": 4838,
+  "href": "/busca"
+ },
+ {
+  "position": 19,
+  "name": "GM - Chevrolet Tracker",
+  "value": 4530,
+  "href": "/busca"
+ },
+ {
+  "position": 20,
+  "name": "BYD Dolphin",
+  "value": 4132,
+  "href": "/busca"
+ },
+ {
+  "position": 21,
+  "name": "Caoa Chery Tiggo 7",
+  "value": 4102,
+  "href": "/busca"
+ },
+ {
+  "position": 22,
+  "name": "BYD Song Pro",
+  "value": 3963,
+  "href": "/busca"
+ },
+ {
+  "position": 23,
+  "name": "Honda HR-V",
+  "value": 3938,
+  "href": "/busca"
+ },
+ {
+  "position": 24,
+  "name": "Jeep Compass",
+  "value": 3867,
+  "href": "/busca"
+ },
+ {
+  "position": 25,
+  "name": "Jeep Renegade",
+  "value": 3669,
+  "href": "/busca"
+ },
+ {
+  "position": 26,
+  "name": "Omoda Omoda 5",
+  "value": 3616,
+  "href": "/busca"
+ },
+ {
+  "position": 27,
+  "name": "Ford Ranger",
+  "value": 3465,
+  "href": "/busca"
+ },
+ {
+  "position": 28,
+  "name": "Toyota Corolla Cross",
+  "value": 3359,
+  "href": "/busca"
+ },
+ {
+  "position": 29,
+  "name": "Toyota Hilux",
+  "value": 3310,
+  "href": "/busca"
+ },
+ {
+  "position": 30,
+  "name": "Nissan Kait",
+  "value": 3060,
+  "href": "/busca"
+ },
+ {
+  "position": 31,
+  "name": "VW - VolksWagen Nivus",
+  "value": 3060,
+  "href": "/busca"
+ },
+ {
+  "position": 32,
+  "name": "Honda WR-V",
+  "value": 2994,
+  "href": "/busca"
+ },
+ {
+  "position": 33,
+  "name": "Caoa Chery Tiggo 5X",
+  "value": 2882,
+  "href": "/busca"
+ },
+ {
+  "position": 34,
+  "name": "Nissan Kicks",
+  "value": 2785,
+  "href": "/busca"
+ },
+ {
+  "position": 35,
+  "name": "GEELY Ex2",
+  "value": 2724,
+  "href": "/busca"
+ },
+ {
+  "position": 36,
+  "name": "GM - Chevrolet Sonic",
+  "value": 2713,
+  "href": "/busca"
+ },
+ {
+  "position": 37,
+  "name": "GM - Chevrolet S10",
+  "value": 2684,
+  "href": "/busca"
+ },
+ {
+  "position": 38,
+  "name": "Jaecoo 7",
+  "value": 2614,
+  "href": "/busca"
+ },
+ {
+  "position": 39,
+  "name": "GM - Chevrolet Spin",
+  "value": 2379,
+  "href": "/busca"
+ },
+ {
+  "position": 40,
+  "name": "VW - VolksWagen Virtus",
+  "value": 2315,
+  "href": "/busca"
+ },
+ {
+  "position": 41,
+  "name": "Fiat Fiorino",
+  "value": 2049,
+  "href": "/busca"
+ },
+ {
+  "position": 42,
+  "name": "Hyundai HB20S",
+  "value": 2013,
+  "href": "/busca"
+ },
+ {
+  "position": 43,
+  "name": "RAM Rampage",
+  "value": 1952,
+  "href": "/busca"
+ },
+ {
+  "position": 44,
+  "name": "BYD Song Plus",
+  "value": 1929,
+  "href": "/busca"
+ },
+ {
+  "position": 45,
+  "name": "Jeep Avenger",
+  "value": 1867,
+  "href": "/busca"
+ },
+ {
+  "position": 46,
+  "name": "Fiat Cronos",
+  "value": 1776,
+  "href": "/busca"
+ },
+ {
+  "position": 47,
+  "name": "VW - VolksWagen Taos",
+  "value": 1739,
+  "href": "/busca"
+ },
+ {
+  "position": 48,
+  "name": "BYD King",
+  "value": 1666,
+  "href": "/busca"
+ },
+ {
+  "position": 49,
+  "name": "GEELY Ex5 Em I",
+  "value": 1572,
+  "href": "/busca"
+ },
+ {
+  "position": 50,
+  "name": "Renault Master",
+  "value": 1569,
+  "href": "/busca"
+ }
+]

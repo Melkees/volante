@@ -1,0 +1,926 @@
+[
+ {
+  "chave": "FIAT STRADA ENDURANCE 1.3 FLEX 8V CS PLUS",
+  "consumo_cidade": 13.1,
+  "consumo_estrada": 14.2,
+  "tanque": 55,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT ARGO 1.0 6V FLEX",
+  "consumo_cidade": 13.6,
+  "consumo_estrada": 14.5,
+  "tanque": 47,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT MOBI LIKE 1.0 FIRE FLEX 5P.",
+  "consumo_cidade": 14,
+  "consumo_estrada": 15.1,
+  "tanque": 47,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT CRONOS DRIVE 1.0 6V FLEX",
+  "consumo_cidade": 13.4,
+  "consumo_estrada": 15.9,
+  "tanque": 48,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT PULSE 1.0 TURBO 200 FLEX AUT.",
+  "consumo_cidade": 12.3,
+  "consumo_estrada": 14.4,
+  "tanque": 45,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT FASTBACK 1.0 200 TURBO FLEX AUT",
+  "consumo_cidade": 12.1,
+  "consumo_estrada": 14.3,
+  "tanque": 47,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT TORO ENDURANCE 1.3 T270 4X2 FLEX AUT.",
+  "consumo_cidade": 9.8,
+  "consumo_estrada": 11.2,
+  "tanque": 55,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT FIORINO ENDURANCE 1.3 FLEX 8V 2P",
+  "consumo_cidade": 12.4,
+  "consumo_estrada": 13.6,
+  "tanque": 55,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT DUCATO CARGO 2.2 DIESEL (E6)",
+  "consumo_cidade": 10.8,
+  "consumo_estrada": 10.4,
+  "tanque": 90,
+  "combustivel": "Diesel"
+ },
+ {
+  "chave": "FIAT UNO ATTRACTIVE 1.0 FIRE FLEX 8V 5P",
+  "consumo_cidade": 13.2,
+  "consumo_estrada": 15.2,
+  "tanque": 48,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT PALIO 1.0/ TROFEO 1.0 FIRE/ FIRE FLEX 4P",
+  "consumo_cidade": 12.3,
+  "consumo_estrada": 14.6,
+  "tanque": 48,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT GRAND SIENA 1.0 EVO FLEX 8V 4P",
+  "consumo_cidade": 11.2,
+  "consumo_estrada": 13.1,
+  "tanque": 48,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT SIENA EL 1.0 MPI FIRE FLEX 8V 4P",
+  "consumo_cidade": 11.6,
+  "consumo_estrada": 13.9,
+  "tanque": 48,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT IDEA ESSENCE 1.6 FLEX 16V 5P",
+  "consumo_cidade": 9.8,
+  "consumo_estrada": 10.8,
+  "tanque": 48,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VW - VOLKSWAGEN POLO 1.0 MPI FLEX 12V 5P",
+  "consumo_cidade": 13.7,
+  "consumo_estrada": 15.2,
+  "tanque": 52,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VW - VOLKSWAGEN T-CROSS 200 TSI 1.0 FLEX 12V 5P AUT.",
+  "consumo_cidade": 12.1,
+  "consumo_estrada": 14.5,
+  "tanque": 49,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VW - VOLKSWAGEN TERA 1.0 170 TSI FLEX 12V 5P MEC.",
+  "consumo_cidade": 12.9,
+  "consumo_estrada": 15,
+  "tanque": 59,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VW - VOLKSWAGEN NIVUS COMFORTLINE 1.0 200 TSI FLEX AUT.",
+  "consumo_cidade": 12.4,
+  "consumo_estrada": 14.8,
+  "tanque": 49,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VW - VOLKSWAGEN VIRTUS COMFORT. 200 TSI 1.0 FLEX 12V AUT",
+  "consumo_cidade": 12.1,
+  "consumo_estrada": 14.7,
+  "tanque": 49,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VW - VOLKSWAGEN TAOS COMFORTLINE 1.4 250 TSI FLEX AUT.",
+  "consumo_cidade": 11.1,
+  "consumo_estrada": 13.3,
+  "tanque": 52,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VW - VOLKSWAGEN SAVEIRO EXTREME 1.6 FLEX 16V CD",
+  "consumo_cidade": 11.3,
+  "consumo_estrada": 12.6,
+  "tanque": 55,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VW - VOLKSWAGEN AMAROK COMFOR. 3.0 V6 TDI 4X4 DIES. AUT.",
+  "consumo_cidade": 8.5,
+  "consumo_estrada": 9,
+  "tanque": 80,
+  "combustivel": "Diesel"
+ },
+ {
+  "chave": "VW - VOLKSWAGEN GOL 1.0 FLEX 12V 5P",
+  "consumo_cidade": 13.7,
+  "consumo_estrada": 15.2,
+  "tanque": 55,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VW - VOLKSWAGEN VOYAGE 1.0 FLEX 12V 4P",
+  "consumo_cidade": 13,
+  "consumo_estrada": 15,
+  "tanque": 55,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VW - VOLKSWAGEN TIGUAN ALLSPAC R-LINE 300 TSI 2.0",
+  "consumo_cidade": 8.3,
+  "consumo_estrada": 9.6,
+  "tanque": 60,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "VW - VOLKSWAGEN UP! XTREME 1.0 TSI TOTAL FLEX 12V 5P",
+  "consumo_cidade": 14.3,
+  "consumo_estrada": 16.3,
+  "tanque": 50,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VW - VOLKSWAGEN FOX CONNECT 1.6 FLEX 8V 5P",
+  "consumo_cidade": 11.5,
+  "consumo_estrada": 13.6,
+  "tanque": 50,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VW - VOLKSWAGEN GOLF GTE TSI 1.4 16V HIBRIDO AUT.",
+  "consumo_cidade": 14,
+  "consumo_estrada": 17,
+  "tanque": 40,
+  "combustivel": "Híbrido Plug-in"
+ },
+ {
+  "chave": "GM - CHEVROLET ONIX HATCH 100 ANOS 1.0 12V 5P MEC.",
+  "consumo_cidade": 13.8,
+  "consumo_estrada": 16.9,
+  "tanque": 44,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "GM - CHEVROLET ONIX SEDAN PLUS 1.0 12V MEC.",
+  "consumo_cidade": 13.9,
+  "consumo_estrada": 17.1,
+  "tanque": 44,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "GM - CHEVROLET TRACKER 100 ANOS 1.2 TURBO 12V AUT.",
+  "consumo_cidade": 11,
+  "consumo_estrada": 13.7,
+  "tanque": 44,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "GM - CHEVROLET MONTANA 1.2 TURBO FLEX 12V 4P MEC.",
+  "consumo_cidade": 12.3,
+  "consumo_estrada": 13.7,
+  "tanque": 44,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "GM - CHEVROLET S10 PICK-UP 100 ANOS 2.8 TDI 4X4 CD AUT.",
+  "consumo_cidade": 8,
+  "consumo_estrada": 9.2,
+  "tanque": 76,
+  "combustivel": "Diesel"
+ },
+ {
+  "chave": "GM - CHEVROLET SPIN 1.8 8V ECONO.FLEX 5P AUT.",
+  "consumo_cidade": 10.5,
+  "consumo_estrada": 13.4,
+  "tanque": 53,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "GM - CHEVROLET CRUZE SPORT RS 1.4 16V TB FLEX 5P AUT.",
+  "consumo_cidade": 11.1,
+  "consumo_estrada": 13.6,
+  "tanque": 52,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "GM - CHEVROLET CRUZE MIDNIGHT 1.4 16V TB FLEX AUT.",
+  "consumo_cidade": 11.1,
+  "consumo_estrada": 13.9,
+  "tanque": 52,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "GM - CHEVROLET TRAILBLAZER HIGH COUNTRY 2.8 TB DIE AUT.",
+  "consumo_cidade": 9.5,
+  "consumo_estrada": 11.6,
+  "tanque": 76,
+  "combustivel": "Diesel"
+ },
+ {
+  "chave": "GM - CHEVROLET EQUINOX ACTIV 1.5 TURBO 177CV AUT.",
+  "consumo_cidade": 9,
+  "consumo_estrada": 10.7,
+  "tanque": 59,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "GM - CHEVROLET CELTA SPIRIT/ LT 1.0 MPFI 8V FLEXP. 5P",
+  "consumo_cidade": 12.8,
+  "consumo_estrada": 15.3,
+  "tanque": 42,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "GM - CHEVROLET PRISMA SED. ADVANT. 1.4 8V F.POWER AUT.",
+  "consumo_cidade": 11.1,
+  "consumo_estrada": 14.4,
+  "tanque": 54,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "GM - CHEVROLET CAMARO SS 6.2 V8 16V",
+  "consumo_cidade": 6.4,
+  "consumo_estrada": 9.6,
+  "tanque": 72,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "TOYOTA COROLLA ALTIS/A.PREMIU. 2.0 FLEX 16V AUT",
+  "consumo_cidade": 11.9,
+  "consumo_estrada": 14.5,
+  "tanque": 50,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "TOYOTA COROLLA CROSS GR-S 2.0 16V FLEX AUT.",
+  "consumo_cidade": 11.7,
+  "consumo_estrada": 13,
+  "tanque": 47,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "TOYOTA YARIS CROSS XR 1.5 16V 5P AUT.",
+  "consumo_cidade": 12.6,
+  "consumo_estrada": 14.3,
+  "tanque": 42,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "TOYOTA YARIS XL SEDAN 1.5 FLEX 16V 4P AUT.",
+  "consumo_cidade": 12.9,
+  "consumo_estrada": 14.5,
+  "tanque": 42,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "TOYOTA HILUX CD 4X4 2.8 DIESEL AUT.",
+  "consumo_cidade": 9.3,
+  "consumo_estrada": 10,
+  "tanque": 80,
+  "combustivel": "Diesel"
+ },
+ {
+  "chave": "TOYOTA HILUX SW4 DIAMOND 2.8 TB 4X4 DIE. AUT.",
+  "consumo_cidade": 9.8,
+  "consumo_estrada": 11.2,
+  "tanque": 80,
+  "combustivel": "Diesel"
+ },
+ {
+  "chave": "TOYOTA ETIOS X 1.3 FLEX 16V 5P AUT.",
+  "consumo_cidade": 12.6,
+  "consumo_estrada": 14.2,
+  "tanque": 45,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "TOYOTA ETIOS X PLUS SEDAN 1.5 FLEX 16V 4P AUT.",
+  "consumo_cidade": 12.4,
+  "consumo_estrada": 14.6,
+  "tanque": 45,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "HYUNDAI HB20 COMFORT 1.0 FLEX 12V MEC.",
+  "consumo_cidade": 13.3,
+  "consumo_estrada": 15.4,
+  "tanque": 50,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "HYUNDAI CRETA COMFORT 1.0 TB 12V FLEX AUT.",
+  "consumo_cidade": 12,
+  "consumo_estrada": 12.7,
+  "tanque": 50,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "HYUNDAI HB20S COMFORT 1.0 FLEX 12V MEC.",
+  "consumo_cidade": 13.4,
+  "consumo_estrada": 15.4,
+  "tanque": 50,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "HYUNDAI TUCSON LIMITED 1.6 TURBO 16V AUT.",
+  "consumo_cidade": 10.6,
+  "consumo_estrada": 12.2,
+  "tanque": 62,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "HYUNDAI SANTA FE 3.5 V6 4X4 AUT.",
+  "consumo_cidade": 8.1,
+  "consumo_estrada": 10.1,
+  "tanque": 71,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "HYUNDAI I30 1.8 16V AUT. 5P",
+  "consumo_cidade": 9.3,
+  "consumo_estrada": 12.1,
+  "tanque": 53,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "HYUNDAI ELANTRA 2.0 16V FLEX AUT.",
+  "consumo_cidade": 9.9,
+  "consumo_estrada": 13.1,
+  "tanque": 62,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "HYUNDAI KONA SIGNATURE GDI 1.6 16V AUT (HIBRIDO)",
+  "consumo_cidade": 18.4,
+  "consumo_estrada": 16,
+  "tanque": 38,
+  "combustivel": "Híbrido"
+ },
+ {
+  "chave": "HYUNDAI PALISADE SIGNATURE 3.8 GDI AWD AUT.",
+  "consumo_cidade": 8.1,
+  "consumo_estrada": 10.4,
+  "tanque": 71,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "HYUNDAI AZERA 3.0 V6 24V 4P AUT.",
+  "consumo_cidade": 8.6,
+  "consumo_estrada": 11,
+  "tanque": 70,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "HONDA CIVIC SED.TOURING 2.0 16V AUT. (HIBRIDO)",
+  "consumo_cidade": 18.3,
+  "consumo_estrada": 15.9,
+  "tanque": 40,
+  "combustivel": "Híbrido"
+ },
+ {
+  "chave": "HONDA HR-V ADVANCE 1.5 FLEX TB 16V 5P AUT.",
+  "consumo_cidade": 11.5,
+  "consumo_estrada": 12.9,
+  "tanque": 50,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "HONDA CITY SEDAN EX 1.5 FLEX 16V 4P AUT.",
+  "consumo_cidade": 12.8,
+  "consumo_estrada": 15.5,
+  "tanque": 44,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "HONDA CITY HATCHBACK EX 1.5 FLEX 16V AUT.",
+  "consumo_cidade": 13.2,
+  "consumo_estrada": 15,
+  "tanque": 39,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "HONDA WR-V EX 1.5 FLEXONE 16V 5P AUT.",
+  "consumo_cidade": 12,
+  "consumo_estrada": 12.8,
+  "tanque": 44,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "HONDA FIT EX/S 1.5 FLEX/FLEXONE 16V 5P AUT.",
+  "consumo_cidade": 12.3,
+  "consumo_estrada": 14.5,
+  "tanque": 45,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "HONDA CR-V TOURING 2.0 16V AWD AUT.(HIBRIDO)",
+  "consumo_cidade": 15.5,
+  "consumo_estrada": 12,
+  "tanque": 53,
+  "combustivel": "Híbrido"
+ },
+ {
+  "chave": "HONDA ZR-V TOURING 2.0 16V 5P AUT.",
+  "consumo_cidade": 10.2,
+  "consumo_estrada": 12.1,
+  "tanque": 53,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "HONDA ACCORD SEDAN 2.0 TB 16V AUT. (HIBRIDO)",
+  "consumo_cidade": 17.8,
+  "consumo_estrada": 16.1,
+  "tanque": 49,
+  "combustivel": "Híbrido"
+ },
+ {
+  "chave": "JEEP COMPASS BLACKHAWK HURRICANE 2.0 4X4 TB AUT.",
+  "consumo_cidade": 8.5,
+  "consumo_estrada": 11,
+  "tanque": 55,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "JEEP RENEGADE ALTITUDE T270 1.3 TB FLEX AUT.",
+  "consumo_cidade": 11.1,
+  "consumo_estrada": 12.4,
+  "tanque": 55,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "JEEP COMMANDER BLACK HURRICANE 2.0 4X4 TB AUT",
+  "consumo_cidade": 8,
+  "consumo_estrada": 10.2,
+  "tanque": 61,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "JEEP WRANGLER RUBICON 2.0 TURBO 4X4 4P AUT.",
+  "consumo_cidade": 8.4,
+  "consumo_estrada": 9.5,
+  "tanque": 81,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "JEEP GLADIATOR RUBICON 3.6 V6 284 CV",
+  "consumo_cidade": 6.5,
+  "consumo_estrada": 7.8,
+  "tanque": 83,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "JEEP GRAND CHEROKEE 4XE 2.0 T. AUT. (HIBRIDO)",
+  "consumo_cidade": 19.3,
+  "consumo_estrada": 19.3,
+  "tanque": 72,
+  "combustivel": "Híbrido Plug-in"
+ },
+ {
+  "chave": "BYD DOLPHIN MINI GS (ELETRICO)",
+  "consumo_cidade": 8.8,
+  "consumo_estrada": null,
+  "tanque": 38,
+  "combustivel": "Elétrico"
+ },
+ {
+  "chave": "BYD DOLPHIN EV GS (ELETRICO)",
+  "consumo_cidade": 7.1,
+  "consumo_estrada": null,
+  "tanque": 44.9,
+  "combustivel": "Elétrico"
+ },
+ {
+  "chave": "BYD KING GL 1.5 16V AUT. (HIBRIDO)",
+  "consumo_cidade": 16.8,
+  "consumo_estrada": 32.7,
+  "tanque": 48,
+  "combustivel": "Híbrido Plug-in"
+ },
+ {
+  "chave": "BYD SONG PLUS 1.5 16V AUT. (HIBRIDO)",
+  "consumo_cidade": 25,
+  "consumo_estrada": 23.3,
+  "tanque": 60,
+  "combustivel": "Híbrido Plug-in"
+ },
+ {
+  "chave": "BYD YUAN PLUS (ELETRICO)",
+  "consumo_cidade": 5.6,
+  "consumo_estrada": null,
+  "tanque": 60.5,
+  "combustivel": "Elétrico"
+ },
+ {
+  "chave": "BYD SEAL (ELETRICO)",
+  "consumo_cidade": 4.7,
+  "consumo_estrada": null,
+  "tanque": 82.5,
+  "combustivel": "Elétrico"
+ },
+ {
+  "chave": "BYD SHARK GS 1.5 16V 4X4 AUT. (HIBRIDO)",
+  "consumo_cidade": 24.6,
+  "consumo_estrada": 19.9,
+  "tanque": 57,
+  "combustivel": "Híbrido Plug-in"
+ },
+ {
+  "chave": "RENAULT KWID E-TECH TECHNO",
+  "consumo_cidade": 8.2,
+  "consumo_estrada": null,
+  "tanque": 26.8,
+  "combustivel": "Elétrico"
+ },
+ {
+  "chave": "RENAULT LOGAN LIFE FLEX 1.0 12V 4P MEC.",
+  "consumo_cidade": 13.6,
+  "consumo_estrada": 14.2,
+  "tanque": 50,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "RENAULT SANDERO GT LINE/RLIN FLEX 1.0 12V 5P",
+  "consumo_cidade": 13.9,
+  "consumo_estrada": 14.7,
+  "tanque": 50,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "RENAULT STEPWAY ICONIC FLEX 1.6 16V AUT.",
+  "consumo_cidade": 11,
+  "consumo_estrada": 11.8,
+  "tanque": 50,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "RENAULT DUSTER ICONIC PLUS 1.3 TB 16V FLEX AUT.",
+  "consumo_cidade": 10.9,
+  "consumo_estrada": 12.3,
+  "tanque": 46,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "RENAULT OROCH ICONIC 1.6 FLEX 16V MEC.",
+  "consumo_cidade": 11.3,
+  "consumo_estrada": 11.6,
+  "tanque": 45,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "RENAULT KARDIAN AUTHENTIC 1.0 TB 12V 5P AUT.",
+  "consumo_cidade": 12.8,
+  "consumo_estrada": 13.9,
+  "tanque": 50,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "RENAULT MASTER 2.3 DCI CHASSI 16V DIESEL",
+  "consumo_cidade": 7.9,
+  "consumo_estrada": 8.1,
+  "tanque": 80,
+  "combustivel": "Diesel"
+ },
+ {
+  "chave": "RENAULT KANGOO ADVANCED 1.6 16V FLEX",
+  "consumo_cidade": 11,
+  "consumo_estrada": 11.7,
+  "tanque": 47,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "RENAULT CAPTUR ICONIC 1.3 TB 16V FLEX 5P AUT.",
+  "consumo_cidade": 11.1,
+  "consumo_estrada": 12,
+  "tanque": 50,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "RENAULT FLUENCE SEDAN PRIVILEGE 2.0 16V FLEX AUT",
+  "consumo_cidade": 9.7,
+  "consumo_estrada": 12.1,
+  "tanque": 60,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "RENAULT CLIO AUTHENTIQUE 1.0/1.0 HI-POWER 16V 3P",
+  "consumo_cidade": 13.8,
+  "consumo_estrada": 15.2,
+  "tanque": 50,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "FORD KA 1.0 FREESTYLE 12V FLEX 5P MEC.",
+  "consumo_cidade": 13.4,
+  "consumo_estrada": 15.5,
+  "tanque": 51,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FORD KA 1.5 SEDAN SE 12V FLEX 4P MEC.",
+  "consumo_cidade": 12.9,
+  "consumo_estrada": 15.3,
+  "tanque": 51,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FORD TERRITORY TITANIUM 1.5 GTDI ECOBO. AUT.",
+  "consumo_cidade": 8.8,
+  "consumo_estrada": 11.2,
+  "tanque": 60,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "FORD RANGER BLACK 2.0 4X2 CD TB DIESEL AUT.",
+  "consumo_cidade": 10.1,
+  "consumo_estrada": 12.4,
+  "tanque": 80,
+  "combustivel": "Diesel"
+ },
+ {
+  "chave": "FORD MAVERICK LARIAT HYBRID 2.5 AWD AUT.",
+  "consumo_cidade": 15.4,
+  "consumo_estrada": 13.5,
+  "tanque": 57,
+  "combustivel": "Híbrido"
+ },
+ {
+  "chave": "FORD BRONCO SPORT BADLANDS 2.0L TB 4WD AUT.",
+  "consumo_cidade": 8.3,
+  "consumo_estrada": 10.2,
+  "tanque": 64,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "FORD ECOSPORT FREESTYLE 1.5 12V FLEX 5P AUT.",
+  "consumo_cidade": 10.4,
+  "consumo_estrada": 12.8,
+  "tanque": 52,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FORD FUSION SEL 2.0 ECOBO. 16V 248CV AUT.",
+  "consumo_cidade": 8.6,
+  "consumo_estrada": 11.7,
+  "tanque": 62,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "FORD FOCUS 1.6 S/SE/SE PLUS FLEX 8V/16V 5P",
+  "consumo_cidade": 11,
+  "consumo_estrada": 13.9,
+  "tanque": 55,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FORD FIESTA SE 1.6 16V FLEX 5P",
+  "consumo_cidade": 11.2,
+  "consumo_estrada": 13.9,
+  "tanque": 52,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FORD EXPLORER LIMITED 4.0 4X4 V6 213CV",
+  "consumo_cidade": 5.9,
+  "consumo_estrada": 9.8,
+  "tanque": 85,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "NISSAN KICKS ADVANCE 1.0 TURBO FLEX AUT.",
+  "consumo_cidade": 11.7,
+  "consumo_estrada": 14.3,
+  "tanque": 48,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "NISSAN VERSA ADVANCE 1.6 16V FLEX AUT.",
+  "consumo_cidade": 11.5,
+  "consumo_estrada": 15,
+  "tanque": 41,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "NISSAN FRONTIER ATTAC.CD 4X4 2.3 BI-TB DIE. AUT",
+  "consumo_cidade": 9.1,
+  "consumo_estrada": 11,
+  "tanque": 73,
+  "combustivel": "Diesel"
+ },
+ {
+  "chave": "NISSAN SENTRA ADVANCE 2.0 16V AUT.",
+  "consumo_cidade": 11,
+  "consumo_estrada": 13.9,
+  "tanque": 47,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "NISSAN MARCH SL 1.6 16V FLEXSTART 5P AUT.",
+  "consumo_cidade": 11.7,
+  "consumo_estrada": 14.5,
+  "tanque": 41,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "NISSAN LEAF AUT. (ELETRICO)",
+  "consumo_cidade": 6.3,
+  "consumo_estrada": null,
+  "tanque": 40,
+  "combustivel": "Elétrico"
+ },
+ {
+  "chave": "NISSAN LIVINA 1.6 16V FLEX FUEL 5P",
+  "consumo_cidade": 11.2,
+  "consumo_estrada": 13.4,
+  "tanque": 50,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT DOBLO ESSENCE 1.8 FLEX 16V 5P",
+  "consumo_cidade": 9.1,
+  "consumo_estrada": 9.3,
+  "tanque": 60,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT PUNTO ATTRACTIVE 1.4 FIRE FLEX 8V 5P",
+  "consumo_cidade": 10.7,
+  "consumo_estrada": 12.5,
+  "tanque": 50,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT 500 CULT 1.4 FLEX 8V EVO MEC.",
+  "consumo_cidade": 11.7,
+  "consumo_estrada": 13.7,
+  "tanque": 35,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VW - VOLKSWAGEN JETTA GLI 350 TSI 2.0 16V 4P AUT.",
+  "consumo_cidade": 9.9,
+  "consumo_estrada": 12.2,
+  "tanque": 50,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "VW - VOLKSWAGEN SANTANA 1.8 MI",
+  "consumo_cidade": 9.3,
+  "consumo_estrada": 13,
+  "tanque": 72,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "VW - VOLKSWAGEN BORA 2.0/ 2.0 FLEX 8V AUT.",
+  "consumo_cidade": 8.7,
+  "consumo_estrada": 11.8,
+  "tanque": 55,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "GM - CHEVROLET ASTRA ADVANTAGE 2.0 MPFI 8V FLEXPOWER 5P",
+  "consumo_cidade": 9.8,
+  "consumo_estrada": 13,
+  "tanque": 52,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "GM - CHEVROLET CORSA HAT. MAXX 1.4 8V ECONOFLEX 5P",
+  "consumo_cidade": 10.7,
+  "consumo_estrada": 13.4,
+  "tanque": 44,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "GM - CHEVROLET S10 BLAZER COLINA 2.8 TDI 4X4 DIESEL",
+  "consumo_cidade": 9,
+  "consumo_estrada": 12,
+  "tanque": 70,
+  "combustivel": "Diesel"
+ },
+ {
+  "chave": "TOYOTA COROLLA FIELDER SW 1.8/1.8 XEI FLEX AUT.",
+  "consumo_cidade": 9.8,
+  "consumo_estrada": 13.1,
+  "tanque": 56,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "TOYOTA RAV4 2.5 SX CONNECT 4X4 AUT. (HIBRIDO)",
+  "consumo_cidade": 15.3,
+  "consumo_estrada": 14.1,
+  "tanque": 55,
+  "combustivel": "Híbrido"
+ },
+ {
+  "chave": "TOYOTA COROLLA GR CIRCUIT 1.6 TURBO 4X4 MEC",
+  "consumo_cidade": 8.7,
+  "consumo_estrada": 11.1,
+  "tanque": 50,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "HYUNDAI IX35 GL 2.0 16V 2WD FLEX AUT.",
+  "consumo_cidade": 8,
+  "consumo_estrada": 9.4,
+  "tanque": 58,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "HONDA CIVIC HATCH VTI",
+  "consumo_cidade": 9,
+  "consumo_estrada": 12.5,
+  "tanque": 45,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "BYD HAN EV (ELETRICO)",
+  "consumo_cidade": 6.1,
+  "consumo_estrada": null,
+  "tanque": 85.4,
+  "combustivel": "Elétrico"
+ },
+ {
+  "chave": "RENAULT MEGANE E-TECH (ELETRICO)",
+  "consumo_cidade": 6.2,
+  "consumo_estrada": null,
+  "tanque": 60,
+  "combustivel": "Elétrico"
+ },
+ {
+  "chave": "FORD F-150 LARIAT 4X4 5.0 V8",
+  "consumo_cidade": 6.3,
+  "consumo_estrada": 8.6,
+  "tanque": 136,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "FORD FIESTA SED. TI./TI.PLUS1.6 16V FLEX AUT.",
+  "consumo_cidade": 10.7,
+  "consumo_estrada": 13.9,
+  "tanque": 52,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FORD FOCUS SEDAN 2.0 16V/2.0 16V FLEX 4P AUT.",
+  "consumo_cidade": 9.7,
+  "consumo_estrada": 12.6,
+  "tanque": 55,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FORD PAMPA L 1.8I / 1.8",
+  "consumo_cidade": 9,
+  "consumo_estrada": 13,
+  "tanque": 76,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "NISSAN KAIT ACTIVE 1.6 16V AUT.",
+  "consumo_cidade": 11.4,
+  "consumo_estrada": 13.7,
+  "tanque": 41,
+  "combustivel": "Flex"
+ }
+]
