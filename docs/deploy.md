@@ -1,5 +1,30 @@
 # Deploy do Volante
 
+## Publique agora (10 min, grátis — Render)
+
+1. **GitHub** (pule se já tem conta): crie a conta e um repo vazio `volante` (sem README).
+2. No terminal, na raiz do repo local:
+   ```bash
+   git remote add origin https://github.com/SEU-USUARIO/volante.git
+   git push -u origin main
+   ```
+   (O Windows vai abrir o navegador pra você logar no GitHub na 1ª vez — Git Credential Manager.)
+3. **Render**: crie a conta em render.com (botão "Get Started", login com GitHub) →
+   New → Web Service → conecte o repo `volante` e preencha:
+   - **Root Directory**: `app`
+   - **Build Command**: `npm ci && npm run build`
+   - **Start Command**: `npm run seed && npm start`
+   - **Instance Type**: Free
+4. Publique. Em ~3 min o app fica em `https://volante-xxxx.onrender.com`.
+5. Depois: troque `og:url`/`og:image` em `app/index.html` pela URL do Render, commit e push.
+
+Aviso honesto do plano Free: o app adormece após 15 min sem visitas e a primeira
+carga seguinte demora ~40s. Pra link permanente sem sono: VPS (abaixo) ou Render Starter.
+
+---
+
+## Caminhos completos
+
 O app é um processo único: Express servindo `/api/*` + `dist/` na porta 3000
 (`PORT` sobrepõe). Requer Node 20+. Dados de seed (FIPE, histórico, top 50, posts,
 consumo) são arquivos JSON versionados em `app/server/data/` — o seed é idempotente.
