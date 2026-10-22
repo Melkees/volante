@@ -92,8 +92,8 @@ export default function Financing() {
       <SectionHeading
         eyebrow="FINANCIAMENTO"
         title="Simule as"
-        highlight="4 modalidades ao vivo"
-        sub="CDC, Leasing, Consórcio e Assinatura comparados em tempo real — o menor custo total considera só os financiamentos (na assinatura você não fica com o carro)."
+        highlight="4 modalidades"
+        sub="CDC, Leasing, Consórcio e Assinatura numa simulação estimada (taxas de exemplo, não cotação de banco) — o menor custo total considera só os financiamentos, porque na assinatura você não fica com o carro."
       />
 
       {erro && !data ? (
@@ -111,7 +111,7 @@ export default function Financing() {
               </span>
               <div>
                 <p className="font-display font-medium">Simulação</p>
-                <p className="text-sm text-muted-foreground">Ajuste e compare ao vivo</p>
+                <p className="text-sm text-muted-foreground">Ajuste e compare na hora</p>
               </div>
             </div>
 

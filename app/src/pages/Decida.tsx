@@ -141,7 +141,7 @@ export default function Decida() {
           </h1>
           <p className="mt-3 max-w-xl text-base text-muted-foreground">
             Quatro perguntas rápidas e um ranking honesto, montado na hora sobre a tabela FIPE de
-            set/2026. Sem cadastro para testar — só heurística local.
+            out/2026. Sem cadastro para testar — só heurística local.
           </p>
         </Reveal>
 
@@ -421,7 +421,7 @@ export default function Decida() {
 
             <div className="mt-8 border-t border-ink/10 pt-5">
               <p className="max-w-xl text-sm text-muted-foreground">
-                Heurística local sobre a tabela FIPE de set/2026 — exemplo ilustrativo, não
+                Heurística local sobre a tabela FIPE de out/2026 — exemplo ilustrativo, não
                 recomendação personalizada de verdade.
                 {creditos != null && (
                   <span className="ml-2 inline-block rounded-full border border-ink/15 bg-background px-3 py-0.5 text-xs text-muted-foreground">

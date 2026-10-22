@@ -40,6 +40,15 @@ docker run -d -p 3000:3000 --name volante volante
 O `CMD` roda `seed` + `server` automaticamente. Persistência: montar volume em
 `/app/server/data` para o store sobreviver a redeploys (`app.json` é gerado).
 
+## Seed idempotente por versão (22/10/26)
+
+O seed carrega uma marcação de versão no próprio store (board `seed_meta`).
+Se a versão já bate com a do código, `node server/seed.mjs` sai na hora sem
+tocar o banco — antes ele re-inseria as ~7,5k linhas do catálogo a cada boot,
+engordando o cold start do Render. Para forçar recarga (dados novos em
+`server/data/*.json`): `FORCE_SEED=1 node server/seed.mjs`. Bump de
+`SEED_VERSAO` no `seed.mjs` também dispara recarga automática no próximo boot.
+
 ## 2. Railway / Render / Fly (sem Docker)
 
 - Root do serviço: `app/`

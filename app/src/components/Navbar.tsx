@@ -1,31 +1,21 @@
-// Navbar editorial do Volante — barra porcelana com hairline, dropdown Parceiros.
+// Navbar editorial do Volante — barra porcelana com hairline.
+// v3: dropdown Parceiros saiu do menu (as páginas de concessionárias/seguros/
+// vistorias estão "em formação" e passavam insegurança); "Seja um Parceiro"
+// continua no rodapé e no painel mobile.
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
-import { ChevronDown, Menu, Search, X } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { Menu, Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Brand } from '@/components/Brand';
 import { api, type User } from '@/lib/api';
-import { cn } from '@/lib/utils';
 
 const LINKS = [
   { label: 'Buscar', href: '/busca' },
   { label: 'Comparar', href: '/comparar' },
-  { label: 'Decida com IA', href: '/decida' },
+  { label: 'Decida', href: '/decida' },
   { label: 'Financiamento', href: '/financiamento' },
   { label: 'Calculadora', href: '/calculadora' },
   { label: 'Rankings', href: '/rankings' },
-];
-
-const PARCEIROS = [
-  { label: 'Concessionárias', href: '/parceiros/concessionarias' },
-  { label: 'Seguros', href: '/parceiros/seguros' },
-  { label: 'Vistorias', href: '/parceiros/vistorias' },
 ];
 
 const linkCls =
@@ -105,44 +95,6 @@ export default function Navbar() {
               </Link>
             </li>
           ))}
-          <li>
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                className={cn(
-                  linkCls,
-                  'inline-flex items-center gap-1 outline-none focus-visible:text-foreground data-[state=open]:text-foreground',
-                )}
-              >
-                Parceiros
-                <ChevronDown className="h-3.5 w-3.5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                align="start"
-                sideOffset={12}
-                className="rounded-md border-ink/10 bg-popover p-1.5 shadow-[0_16px_48px_-16px_rgba(30,28,26,0.28)]"
-              >
-                {PARCEIROS.map((p) => (
-                  <DropdownMenuItem key={p.href} asChild>
-                    <Link
-                      to={p.href}
-                      className="cursor-pointer rounded-sm px-3 py-2 text-sm text-muted-foreground outline-none focus:bg-secondary focus:text-foreground"
-                    >
-                      {p.label}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-                <div className="mx-2 my-1 h-px bg-ink/10" />
-                <DropdownMenuItem asChild>
-                  <Link
-                    to="/parceiros"
-                    className="cursor-pointer rounded-sm px-3 py-2 text-sm font-medium text-primary outline-none focus:bg-primary/10"
-                  >
-                    Seja um Parceiro
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </li>
         </ul>
 
         {/* Ações */}
@@ -242,29 +194,15 @@ export default function Navbar() {
                 </Link>
               </li>
             ))}
-            <li className="px-3 pb-1 pt-4 text-[0.65rem] font-semibold tracking-[0.24em] text-muted-foreground">
-              PARCEIROS
-            </li>
-            {PARCEIROS.map((p) => (
-              <li key={p.href}>
-                <Link
-                  to={p.href}
-                  onClick={() => setOpen(false)}
-                  className="flex min-h-[44px] items-center px-5 py-3 text-sm text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-                >
-                  {p.label}
-                </Link>
-              </li>
-            ))}
             <li>
               <Link
                 to="/parceiros"
                 onClick={() => setOpen(false)}
-                className="flex min-h-[44px] items-center px-5 py-3 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
+                className="flex min-h-[44px] items-center px-3 py-3 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
               >
                 Seja um Parceiro
               </Link>
-              </li>
+            </li>
           </ul>
           <div className="mt-3 flex gap-2 border-t border-ink/10 pt-3">
             {sessaoPronta && user ? (

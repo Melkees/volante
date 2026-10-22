@@ -113,6 +113,11 @@ app.get('*', (req, res, next) => {
     const canonico = req.path.replace(/\/+$/, '').toLowerCase();
     return res.redirect(301, canonico + req.url.slice(req.path.length));
   }
+  // Alias de rota que visitante digita no plural (/buscar) — 301 pro caminho real.
+  const ALIAS_ROTAS = { '/buscar': '/busca' };
+  if (!path.extname(req.path) && ALIAS_ROTAS[req.path]) {
+    return res.redirect(301, ALIAS_ROTAS[req.path] + req.url.slice(req.path.length));
+  }
   if (path.extname(req.path)) return res.status(404).type('text/plain').send('Não encontrado');
 
   // [N13] Parâmetro inexistente é 404 de verdade — a SPA mostra a tela 404.

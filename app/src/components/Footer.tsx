@@ -11,10 +11,9 @@ const FERRAMENTAS = [
   { label: 'Blog', href: '/blog' },
 ];
 
+// v3: páginas de concessionárias/seguros/vistorias estão "em formação" e saíram
+// do rodapé; o contato de parceiro (lead) continua.
 const PARCEIROS = [
-  { label: 'Concessionárias', href: '/parceiros/concessionarias' },
-  { label: 'Seguros', href: '/parceiros/seguros' },
-  { label: 'Vistorias', href: '/parceiros/vistorias' },
   { label: 'Seja um Parceiro', href: '/parceiros', accent: true },
 ];
 

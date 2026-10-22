@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   initSchema,
-  upsertStat, upsertCategory, upsertRankingEntry, clearRankingBoard,
+  upsertStat, upsertCategory, upsertRankingEntry, clearRankingBoard, getRankingBoard,
   upsertHighlight, upsertTool, clearTools,
   upsertVeiculosBulk, clearVeiculos, getDriver,
   upsertPost,
@@ -14,6 +14,17 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 initSchema();
 console.log('[seed] driver:', getDriver());
+
+// ── Seed idempotente (v3) ─────────────────────────────────────────────────────
+// O Render roda `npm run seed` a TODO boot; re-inserir 7,5k linhas no Postgres
+// a cada cold start era desperdício puro. A versão do seed fica num board de
+// metadados (invisível pra API — só os 5 boards conhecidos são expostos) e,
+// se já bate com esta, o seed sai sem tocar o banco. FORCE_SEED=1 recarrega.
+const SEED_VERSAO = '2026-10-22-v3';
+if (getRankingBoard('seed_meta')?.[0]?.name === SEED_VERSAO && !process.env.FORCE_SEED) {
+  console.log(`[seed] versão ${SEED_VERSAO} já aplicada — nada a fazer (FORCE_SEED=1 recarrega)`);
+  process.exit(0);
+}
 
 // ── Normalização de marcas (N4/V7) ───────────────────────────────────────────
 const MARCA_NORMALIZADA = {
@@ -41,6 +52,28 @@ const CATEGORIA_PREFIXOS = [
 const normChave = (s) =>
   String(s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim().toUpperCase();
 const normVeic = (marca, nome) => normChave(`${marca} ${nome}`);
+
+// ── Capitalização de exibição (v3) ───────────────────────────────────────────
+// A FIPE entrega boa parte dos nomes em CAIXA ALTA ("CRONOS DRIVE 1.3 8V").
+// Capitaliza palavra a palavra PRESERVANDO o que não é palavra comum: tokens
+// com dígito (1.3, 8V, 4x4), siglas de até 3 letras (TSI, HEV, CS, GT) e uma
+// lista de siglas maiores que o tamanho não denuncia (TFSI, PHEV…). Casamento
+// de busca/consumo/ranking usa normChave, então a caixa aqui é só visual.
+const SIGLAS = new Set(['TFSI', 'PHEV', 'MHEV', 'BEV', 'DOHC', 'SOHC', 'MPI', 'GDI']);
+const titleToken = (tok) => {
+  if (!tok) return tok;
+  if (/\d/.test(tok)) return tok;
+  if (SIGLAS.has(tok)) return tok;
+  if (tok === tok.toUpperCase() && tok.length <= 3) return tok;
+  if (tok === tok.toUpperCase()) return tok[0] + tok.slice(1).toLowerCase();
+  if (tok === tok.toLowerCase()) return tok[0].toUpperCase() + tok.slice(1);
+  return tok;
+};
+const titleNome = (nome) =>
+  String(nome)
+    .split(' ')
+    .map((tok) => (tok.includes('-') ? tok.split('-').map(titleToken).join('-') : titleToken(tok)))
+    .join(' ');
 
 function categoriaPorPrefixo(nome) {
   const nomeU = normChave(nome);
@@ -100,6 +133,13 @@ if (fs.existsSync(consumoFile)) {
   try { consumoMerge = JSON.parse(fs.readFileSync(consumoFile, 'utf8')); }
   catch (err) { console.warn('[seed] consumo.json inválido, merge vazio:', err.message); }
 }
+// consumo-inmetro.json (v3): extraído do PBE Veicular/INMETRO pelo worker de
+// dados. Entra DEPOIS do consumo.json — chave repetida, o curado vence.
+const consumoInmetroFile = path.join(__dirname, 'data', 'consumo-inmetro.json');
+if (fs.existsSync(consumoInmetroFile)) {
+  try { consumoMerge = consumoMerge.concat(JSON.parse(fs.readFileSync(consumoInmetroFile, 'utf8'))); }
+  catch (err) { console.warn('[seed] consumo-inmetro.json inválido, ignorado:', err.message); }
+}
 function mergeConsumo(v) {
   if (!consumoMerge.length) return v;
   const chave = normVeic(v.marca, v.nome);
@@ -130,7 +170,7 @@ const top50Norm = top50.map((e) => ({ pos: e.position, nome: normChave(e.name) }
 
 const fipe = fipeRows.map((r) => {
   const marca = marcaNorm(r.marca);
-  const nome = String(r.nome).replace(/\s+/g, ' ').trim(); // N18: espaço duplo
+  const nome = titleNome(String(r.nome).replace(/\s+/g, ' ').trim()); // v3: caixa de exibição
   const chaveHist = `${r.codigo_fipe}|${r.ano}`;
   const precoHist = mesMaisRecente(historico[chaveHist]);
   const chaveFull = normChave(`${marca} ${nome}`);
@@ -282,3 +322,7 @@ posts.forEach(upsertPost);
 console.log(`[seed] posts: ${posts.length}`);
 
 console.log('[seed] ok — stats, 4 categorias, 5 boards de ranking, 3 highlights, 6 ferramentas, posts');
+
+// Marcador de versão (por último: só vira "já semeado" quando TUDO rodou).
+clearRankingBoard('seed_meta');
+upsertRankingEntry({ board: 'seed_meta', position: 1, name: SEED_VERSAO, value: 0, href: null });;

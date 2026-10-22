@@ -70,15 +70,19 @@ router.get('/tools', (_req, res) => {
 });
 
 // [B3] Catálogo de veículos — contrato do front (api.ts):
-// {total, veiculos} com filtros q/marca/categoria/combustivel/ano_min/preco_max
-// e paginação limit (default 20, máx 100) / offset.
+// {total, veiculos} com filtros q/marca/categoria/combustivel/ano_min (alias:
+// ano)/preco_min/preco_max/tem_consumo e paginação limit (default 20, máx 100) / offset.
 router.get('/veiculos', (req, res) => {
   const q = normalize(req.query.q);
   const marca = String(req.query.marca ?? '').trim();
   const categoria = String(req.query.categoria ?? '').trim();
   const combustivel = normalize(req.query.combustivel);
-  const anoMin = req.query.ano_min != null && req.query.ano_min !== '' ? Number(req.query.ano_min) : null;
+  // `ano` é aceito como alias de `ano_min` (parâmetro que chamadores externos tentam primeiro).
+  const anoParam = req.query.ano_min ?? req.query.ano;
+  const anoMin = anoParam != null && anoParam !== '' ? Number(anoParam) : null;
+  const precoMin = req.query.preco_min != null && req.query.preco_min !== '' ? Number(req.query.preco_min) : null;
   const precoMax = req.query.preco_max != null && req.query.preco_max !== '' ? Number(req.query.preco_max) : null;
+  const temConsumo = String(req.query.tem_consumo ?? '') === 'true' || String(req.query.tem_consumo ?? '') === '1';
   const limit = Math.min(Math.max(parseInt(String(req.query.limit ?? '20'), 10) || 20, 1), 100);
   const offset = Math.max(parseInt(String(req.query.offset ?? '0'), 10) || 0, 0);
 
@@ -91,7 +95,9 @@ router.get('/veiculos', (req, res) => {
     }
     if (combustivel && !normalize(v.combustivel ?? '').includes(combustivel)) return false;
     if (anoMin != null && Number.isFinite(anoMin) && !(v.ano != null && v.ano >= anoMin)) return false;
+    if (precoMin != null && Number.isFinite(precoMin) && !(v.preco != null && v.preco >= precoMin)) return false;
     if (precoMax != null && Number.isFinite(precoMax) && !(v.preco != null && v.preco <= precoMax)) return false;
+    if (temConsumo && v.consumo_cidade == null) return false;
     return true;
   });
 

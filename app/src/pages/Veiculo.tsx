@@ -226,7 +226,7 @@ export default function Veiculo() {
 
         {/* Preço FIPE */}
         <div className="plate mt-8 rounded-sm border border-ink/10 p-6">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Preço FIPE · tabela set/2026</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Preço FIPE · tabela out/2026</p>
           <p className="mt-2 font-display text-4xl font-semibold text-primary md:text-5xl">
             {veiculo.preco != null ? brl(veiculo.preco) : '—'}
           </p>

@@ -51,7 +51,8 @@ function SkeletonGrid() {
 export default function Busca() {
   const [searchParams, setSearchParams] = useSearchParams();
   const qUrl = searchParams.get('q') ?? '';
-  const categorySlug = searchParams.get('category') ?? '';
+  // `categoria` aceito como alias de `category` (parâmetro que chamadores montam na mão).
+  const categorySlug = searchParams.get('category') ?? searchParams.get('categoria') ?? '';
   const marcaUrl = searchParams.get('marca') ?? '';
   const anoMinUrl = searchParams.get('ano_min') ?? '';
   const precoMaxUrl = searchParams.get('preco_max') ?? '';
@@ -143,7 +144,7 @@ export default function Busca() {
           <p className="mt-3 max-w-xl text-base text-muted-foreground">
             {filtrando
               ? 'Resultados do catálogo para o que você procurou.'
-              : 'Explore o catálogo do Volante — preços FIPE reais (tabela setembro/2026).'}
+              : 'Explore o catálogo do Volante — preços FIPE reais (tabela out/2026).'}
           </p>
 
           <form

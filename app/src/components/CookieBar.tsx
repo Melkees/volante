@@ -57,14 +57,15 @@ export default function CookieBar() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="fixed inset-x-4 bottom-4 z-50 mx-auto flex max-w-2xl flex-col items-center gap-4 rounded-sm border border-ink/10 bg-card px-5 py-4 shadow-[0_16px_48px_-16px_rgba(30,28,26,0.3)] sm:flex-row"
+          // v3: pílula compacta presa no canto (antes era cartão largo centralizado
+          // que cobria o 1º resultado da busca e o card de simulação no mobile).
+          className="fixed inset-x-4 bottom-4 z-50 flex max-w-sm flex-col gap-2 rounded-sm border border-ink/10 bg-card px-4 py-3 shadow-[0_16px_48px_-16px_rgba(30,28,26,0.3)] sm:left-4 sm:right-auto sm:flex-row sm:items-center sm:gap-3"
           role="dialog"
           aria-label="Aviso de cookies"
         >
-          <Cookie className="h-5 w-5 shrink-0 text-primary" />
-          <p className="flex-1 text-center text-sm text-muted-foreground sm:text-left">
-            Guardamos apenas uma preferência local (sem cookies de rastreamento) para não repetir
-            este aviso.{' '}
+          <Cookie className="h-4 w-4 shrink-0 text-primary" />
+          <p className="flex-1 text-xs leading-relaxed text-muted-foreground sm:text-left">
+            Só guardamos uma preferência local (sem rastreamento) para não repetir este aviso.{' '}
             <Link to="/privacidade" className="font-medium text-primary underline underline-offset-4 transition-colors hover:text-foreground">
               Saiba mais
             </Link>
@@ -72,7 +73,7 @@ export default function CookieBar() {
           <button
             type="button"
             onClick={accept}
-            className="shrink-0 rounded-sm bg-ink px-5 py-2 text-sm font-semibold text-ink-foreground transition-colors hover:bg-ink/85"
+            className="shrink-0 self-start rounded-sm bg-ink px-4 py-2 text-xs font-semibold text-ink-foreground transition-colors hover:bg-ink/85 sm:self-auto"
           >
             Entendi
           </button>

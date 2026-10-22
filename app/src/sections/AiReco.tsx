@@ -12,7 +12,7 @@ const PASSOS = [
   },
   {
     titulo: 'Nosso recomendador cruza tudo com preços FIPE',
-    desc: 'Especificações técnicas reais, consumo INMETRO e preço atualizado do mês',
+    desc: 'Preço atualizado do mês para cada versão e consumo quando o dado existe',
   },
   {
     titulo: 'Opções rankeadas com análise honesta',
