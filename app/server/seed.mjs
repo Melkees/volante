@@ -1,5 +1,4 @@
-// Seed do CarroLens — números e textos reais exibidos no vídeo/DOM da home
-// (ver out/plan.md, seções [S2]–[S8]).
+// Seed do Volante — números e textos reais exibidos no app.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -7,7 +6,7 @@ import {
   initSchema,
   upsertStat, upsertCategory, upsertRankingEntry, clearRankingBoard,
   upsertHighlight, upsertTool, clearTools,
-  upsertVeiculo, upsertVeiculosBulk, clearVeiculos, getDriver,
+  upsertVeiculosBulk, clearVeiculos, getDriver,
   upsertPost,
 } from './db.mjs';
 
@@ -16,19 +15,68 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 initSchema();
 console.log('[seed] driver:', getDriver());
 
-// ── Catálogo FIPE (set/2026) — fonte dos números reais do hero ───────────────
+// ── Normalização de marcas (N4/V7) ───────────────────────────────────────────
+const MARCA_NORMALIZADA = {
+  'VW - VolksWagen': 'Volkswagen',
+  'GM - Chevrolet': 'Chevrolet',
+  'Caoa Chery/Chery': 'Caoa Chery',
+};
+const marcaNorm = (marca) => MARCA_NORMALIZADA[marca] ?? marca;
+
+// ── Categoria por prefixo de nome (N3) ──────────────────────────────────────
+// Casa no INÍCIO do nome normalizado (upper, sem acento). Sedan antes de Hatch
+// para 'ONIX PLUS'/'HB20S'/'CRUZE SEDAN' não caírem na regra do hatch.
+// Furgões, esportivos e minivans ficam com categoria null (ok).
+const CATEGORIA_PREFIXOS = [
+  // Sedan primeiro: 'ONIX PLUS', 'HB20S', 'CRUZE SEDAN' não podem cair na regra do hatch.
+  ['Sedan', ['ONIX PLUS', 'HB20S', 'CRUZE SEDAN', 'ETIOS SEDAN', 'YARIS SEDAN', 'COROLLA', 'CRONOS', 'CITY', 'VIRTUS', 'SENTRA', 'CIVIC', 'VERSA', 'SUNNY', 'LOGAN', 'ACCORD', 'AZERA', 'SONATA', 'ELANTRA', 'JETTA', 'PASSAT', 'PRIUS', 'VOYAGE']],
+  ['Pickup', ['STRADA', 'TORO', 'RANGER', 'HILUX', 'S10', 'SAVEIRO', 'RAMPAGE', 'AMAROK', 'FRONTIER', 'MONTANA', 'L200', 'D-MAX', 'F-250', 'F-1000', 'F-4000']],
+  ['SUV', ['T-CROSS', 'CRETA', 'COMPASS', 'PULSE', 'TRACKER', 'NIVUS', 'HR-V', 'KICKS', 'RENEGADE', 'HAVAL', 'COROLLA CROSS', 'TERA', 'TAOS', 'TIGGO', 'TUCSON', 'IX35', 'SPORTAGE', 'ECOSPORT', 'KUGA', 'CX-3', 'CX-30', 'AVENGER', 'SONG']],
+  ['Hatch', ['ONIX', 'POLO', 'HB20', 'ARGO', 'MOBI', 'KWID', 'DOLPHIN', 'DOLPHIN MINI', 'SANDERO', 'GOLF', '208', '2008', 'CORSA', 'PALIO', 'UNO', 'FIESTA', 'KA', 'GO', 'GOL', 'I30', 'CRUZE HB', 'CRUZE SPORT', 'PICANTO', 'RIO', 'SWIFT', 'MIRAGE', 'I20', 'CLIO', 'PUNTO', 'SIENA', 'IDEA', 'CELTA', 'CLASSIC', 'PRISMA', 'FOX', 'ETIOS', 'YARIS', 'MARCH', '500', 'MINI COOPER']],
+];
+// Nota: 'DOLPHIN MINI', 'WR-V' e 'FASTBACK' listados como Hatch por serem
+// compactos (a FIPE os trata fora do SUV); 'GO' também casa 'GOLF'/'GOL'.
+// Furgões (Fiorino, Master), esportivos e minivans ficam com categoria null.
+
+const normChave = (s) =>
+  String(s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim().toUpperCase();
+const normVeic = (marca, nome) => normChave(`${marca} ${nome}`);
+
+function categoriaPorPrefixo(nome) {
+  const nomeU = normChave(nome);
+  for (const [cat, prefixes] of CATEGORIA_PREFIXOS) {
+    if (prefixes.some((p) => nomeU.startsWith(p))) return cat;
+  }
+  return null;
+}
+
+// ── Catálogo FIPE — fonte dos números reais do hero ──────────────────────────
 const fipeRows = JSON.parse(
   fs.readFileSync(path.join(__dirname, 'data', 'fipe-carros.json'), 'utf8'),
 );
-const fipeMarcas = new Set(fipeRows.map((r) => r.marca));
-const fmt = (n) => `${n.toLocaleString('pt-BR')}+`;
+
+// ── Histórico FIPE — preço do veículo = mês mais recente do histórico (N4) ──
+const histFile = path.join(__dirname, 'data', 'fipe-historico.json');
+let historico = {};
+try {
+  historico = JSON.parse(fs.readFileSync(histFile, 'utf8'));
+  console.log(`[seed] fipe-historico: ${Object.keys(historico).length} chaves`);
+} catch (err) {
+  console.warn('[seed] fipe-historico.json indisponível, usando preco do catálogo:', err.message);
+}
+const mesMaisRecente = (serie) => {
+  const meses = Object.keys(serie ?? {});
+  if (!meses.length) return null;
+  return serie[meses.sort().at(-1)];
+};
 
 // ── [S2] Hero ────────────────────────────────────────────────────────────────
-// Números calculados do load FIPE — nada hardcode.
+const fmt = (n) => `${n.toLocaleString('pt-BR')}+`;
+const marcasNorm = new Set(fipeRows.map((r) => marcaNorm(r.marca)));
 [
-  { key: 'hero_modelos', label: 'modelos FIPE', value: fmt(fipeRows.length), hint: 'tabela FIPE set/2026' },
-  { key: 'hero_marcas', label: 'marcas', value: String(fipeMarcas.size), hint: 'marcas cobertas' },
-  { key: 'hero_fipe', label: 'tabela oficial · set/2026', value: '100%', hint: 'dados FIPE oficiais' },
+  { key: 'hero_modelos', label: 'modelos FIPE', value: fmt(fipeRows.length), hint: 'tabela FIPE out/2026' },
+  { key: 'hero_marcas', label: 'marcas', value: String(marcasNorm.size), hint: 'marcas cobertas' },
+  { key: 'hero_fipe', label: 'tabela oficial · out/2026', value: '100%', hint: 'dados FIPE oficiais' },
   // [S8] Rankings — stats da seção
   { key: 'rank_emplacados', label: 'automóveis emplacados em Setembro/2026', value: '216.366', hint: 'FENABRAVE Setembro/2026' },
   { key: 'rank_crescimento', label: 'em relação a Setembro/2025', value: '+21,2%', hint: 'variação anual' },
@@ -44,38 +92,8 @@ const fmt = (n) => `${n.toLocaleString('pt-BR')}+`;
   { slug: 'pickup', name: 'Pickup', icon: 'Truck', examples: 'Strada, Ranger, Hilux...', image: '/assets/categoria-pickup.webp' },
 ].forEach(upsertCategory);
 
-// ── [B3] Catálogo de veículos — só dado real já presente no app:
-// top 5 FENABRAVE (com marca no nome, item 7) + examples das categorias.
-// Preço real existe só para o T-Cross 1.4 TSI 2024 (R$ 118.990 do
-// /api/highlights → recomendacao). Demais: null (UI exibe "—").
-clearVeiculos();
-const curados = [
-  { nome: 'Fiat Strada', marca: 'Fiat', categoria: 'Pickup', preco: null },
-  { nome: 'Volkswagen Polo', marca: 'Volkswagen', categoria: 'Hatch', preco: null },
-  { nome: 'BYD Dolphin Mini', marca: 'BYD', categoria: 'Hatch', preco: null },
-  { nome: 'Volkswagen T-Cross', marca: 'Volkswagen', categoria: 'SUV', preco: 118990 },
-  { nome: 'Volkswagen Tera', marca: 'Volkswagen', categoria: 'SUV', preco: null },
-  { nome: 'Chevrolet Onix', marca: 'Chevrolet', categoria: 'Hatch', preco: null },
-  { nome: 'Hyundai HB20', marca: 'Hyundai', categoria: 'Hatch', preco: null },
-  { nome: 'Jeep Compass', marca: 'Jeep', categoria: 'SUV', preco: null },
-  { nome: 'Hyundai Creta', marca: 'Hyundai', categoria: 'SUV', preco: null },
-  { nome: 'Toyota Corolla', marca: 'Toyota', categoria: 'Sedan', preco: null },
-  { nome: 'Fiat Cronos', marca: 'Fiat', categoria: 'Sedan', preco: null },
-  { nome: 'Honda City', marca: 'Honda', categoria: 'Sedan', preco: null },
-  { nome: 'Ford Ranger', marca: 'Ford', categoria: 'Pickup', preco: null },
-  { nome: 'Toyota Hilux', marca: 'Toyota', categoria: 'Pickup', preco: null },
-  // do exemplo do payback (dom-snapshot) — sem preço divulgado
-  { nome: 'Toyota Corolla Cross HEV', marca: 'Toyota', categoria: 'SUV', preco: null },
-  { nome: 'BYD Dolphin', marca: 'BYD', categoria: 'Hatch', preco: null },
-];
-
 // ── Merge de consumo (data/consumo.json, gerado por outra frente) ────────────
 // Formato: [{chave:"MARCA MODELO normalizada", consumo_cidade, consumo_estrada, tanque, combustivel}]
-// Normalização: upper + remover acentos (NFD) + colapsar espaços.
-const normChave = (s) =>
-  String(s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim().toUpperCase();
-const normVeic = (marca, nome) => normChave(`${marca} ${nome}`);
-
 let consumoMerge = [];
 const consumoFile = path.join(__dirname, 'data', 'consumo.json');
 if (fs.existsSync(consumoFile)) {
@@ -103,29 +121,43 @@ if (consumoMerge.length) {
   console.log(`[seed] consumo.json: ${consumoMerge.length} chaves para merge`);
 }
 
-curados.forEach((v) => upsertVeiculo(mergeConsumo(v)));
+// ── [B3] Bulk load FIPE — 100% do catálogo, sem registros curados (N4) ──────
+// Top 50 FENABRAVE (nomes já normalizados) para pos_fenabrave (N7).
+const top50 = JSON.parse(
+  fs.readFileSync(path.join(__dirname, 'data', 'fenabrave-top50.json'), 'utf8'),
+);
+const top50Norm = top50.map((e) => ({ pos: e.position, nome: normChave(e.name) }));
 
-// Bulk load FIPE: categoria null, ano/combustivel/codigo_fipe/preco reais.
-// Dedup: pula linha cuja chave (marca+nome) normalizada já existe entre curados.
-const normKey = (marca, nome) => normVeic(marca, nome);
-const curadosKeys = new Set(curados.map((v) => normKey(v.marca, v.nome)));
-const fipe = fipeRows
-  .map((r) => ({
-    nome: r.nome, marca: r.marca, categoria: null, preco: r.preco,
-    ano: r.ano, combustivel: r.combustivel, codigo_fipe: r.codigo_fipe,
-  }))
-  .filter((v) => !curadosKeys.has(normKey(v.marca, v.nome)))
-  .map(mergeConsumo);
-upsertVeiculosBulk(fipe);
-console.log(`[seed] veiculos: ${curados.length} curados + ${fipe.length} FIPE (de ${fipeRows.length} linhas, ${fipeRows.length - fipe.length} dedup)`);
+const fipe = fipeRows.map((r) => {
+  const marca = marcaNorm(r.marca);
+  const nome = String(r.nome).replace(/\s+/g, ' ').trim(); // N18: espaço duplo
+  const chaveHist = `${r.codigo_fipe}|${r.ano}`;
+  const precoHist = mesMaisRecente(historico[chaveHist]);
+  const chaveFull = normChave(`${marca} ${nome}`);
+  const fenabrave = top50Norm.find((t) => chaveFull.includes(t.nome));
+  return {
+    nome,
+    marca,
+    categoria: categoriaPorPrefixo(nome),
+    preco: precoHist ?? r.preco,
+    ano: r.ano,
+    combustivel: r.combustivel,
+    codigo_fipe: r.codigo_fipe,
+    pos_fenabrave: fenabrave ? fenabrave.pos : null,
+  };
+});
+clearVeiculos();
+upsertVeiculosBulk(fipe.map(mergeConsumo));
+console.log(`[seed] veiculos: ${fipe.length} FIPE (preço do histórico aplicado quando mais recente)`);
+console.log('[seed] categorias:', fipe.reduce((acc, v) => { acc[v.categoria ?? 'null'] = (acc[v.categoria ?? 'null'] ?? 0) + 1; return acc; }, {}));
 
 // ── [S8] Rankings ────────────────────────────────────────────────────────────
-// Top 5 Marcas
+// Top 5 Marcas — nomes na mesma normalização do catálogo (N4/V7)
 clearRankingBoard('marcas');
 [
-  { position: 1, name: 'VW', value: 37098 },
+  { position: 1, name: 'Volkswagen', value: 37098 },
   { position: 2, name: 'Fiat', value: 28873 },
-  { position: 3, name: 'GM - Chevrolet', value: 23489 },
+  { position: 3, name: 'Chevrolet', value: 23489 },
   { position: 4, name: 'BYD', value: 22171 },
   { position: 5, name: 'Hyundai', value: 14907 },
 ].forEach((e) => upsertRankingEntry({ board: 'marcas', ...e, href: null }));
@@ -163,83 +195,80 @@ clearRankingBoard('veiculos');
 // Top 50 FENABRAVE (set/2026) — extraído de carrolens.com.br/rankings (do próprio
 // dono; coleta autorizada 21/10/2026). Arquivo: data/fenabrave-top50.json.
 clearRankingBoard('veiculos_top50');
-const top50 = JSON.parse(
-  fs.readFileSync(path.join(__dirname, 'data', 'fenabrave-top50.json'), 'utf8'),
-);
 top50.forEach((e) => upsertRankingEntry({ board: 'veiculos_top50', ...e }));
 console.log(`[seed] veiculos_top50: ${top50.length} posições`);
 
-// ── [S4] Highlight Payback (Elétrico compensa?) ──────────────────────────────
+// ── [S4] Highlight Payback (Elétrico compensa?) — B5/N5: payload honesto ────
+// Preços FIPE reais do catálogo (versões 2026/2027). Custos: 1.500 km/mês.
+// Polo gasolina 12 km/L × R$ 6,20 = R$ 775 · Polo etanol 8,5 × R$ 4,20 = R$ 741
+// Corolla Cross HEV 18 km/L = R$ 517 · Dolphin 6,7 km/kWh × R$ 0,85 = R$ 190
 upsertHighlight('payback', {
   badge: 'Exemplo ilustrativo',
-  economia_5_anos: 'R$ 20.640',
   comparacao: 'BYD Dolphin vs VW Polo · 1.500 km/mês',
-  preco_combustiveis: { gasolina: 'R$ 6,20/L', energia: 'R$ 0,85/kWh' },
+  preco_combustiveis: { gasolina: 'R$ 6,20/L', etanol: 'R$ 4,20/L', energia: 'R$ 0,85/kWh' },
   custos_mensais: [
-    { veiculo: 'VW Polo', detalhe: '12 km/L', valor: 'R$ 775/mês' },
-    { veiculo: 'Corolla Cross HEV', detalhe: null, valor: 'R$ 517/mês' },
-    { veiculo: 'BYD Dolphin', detalhe: null, valor: 'R$ 191/mês' },
+    { veiculo: 'VW Polo 1.0 TSI', detalhe: '12 km/L (gasolina)', valor: 'R$ 775/mês' },
+    { veiculo: 'VW Polo 1.0 TSI', detalhe: '8,5 km/L (etanol)', valor: 'R$ 741/mês' },
+    { veiculo: 'Corolla Cross XRE 1.8 HEV', detalhe: '18 km/L', valor: 'R$ 517/mês' },
+    { veiculo: 'BYD Dolphin EV', detalhe: '6,7 km/kWh', valor: 'R$ 190/mês' },
   ],
-  equilibrio: [
-    { texto: 'Dolphin vence o Polo em', meses: 24 },
-    { texto: 'Corolla HEV vence o Polo em', meses: 36 },
-  ],
-  chips: ['Gasolina', 'Etanol', 'Elétrico', 'Híbrido'],
-  // parâmetros numéricos para a calculadora interativa (derivados dos valores exibidos)
+  chips: ['Gasolina', 'Etanol', 'Híbrido', 'Elétrico'],
+  // parâmetros numéricos para a calculadora interativa (valores dos custos acima)
   params: {
     km_mes: 1500,
     gasolina: 6.2, // R$/L
+    etanol: 4.2, // R$/L
     energia: 0.85, // R$/kWh
-    economia_5_anos_valor: 20640,
     carros: [
-      { nome: 'VW Polo', tipo: 'gasolina', consumo: 12 }, // km/L
-      { nome: 'Corolla Cross HEV', tipo: 'hibrido', consumo: 18 }, // km/L
-      { nome: 'BYD Dolphin', tipo: 'eletrico', consumo: 6.7 }, // km/kWh
+      { nome: 'VW Polo 1.0 TSI', tipo: 'gasolina', consumo: 12, preco: 91272 }, // Polo 1.0 TSI Flex 12V 5p 2026
+      { nome: 'VW Polo 1.0 TSI', tipo: 'etanol', consumo: 8.5, preco: 91272 },
+      { nome: 'Corolla Cross XRE 1.8 HEV', tipo: 'hibrido', consumo: 18, preco: 192963 }, // Corolla Cross XRV 1.8 16V Aut. (Híbrido) 2026
+      { nome: 'BYD Dolphin EV', tipo: 'eletrico', consumo: 6.7, preco: 132420 }, // Dolphin EV GS (Elétrico) 2027
     ],
   },
 });
 
-// ── [S6] Highlight Recomendação IA ───────────────────────────────────────────
+// ── [S6] Highlight Recomendação IA — N18/N5: sem "No catálogo"/"IA" ─────────
 upsertHighlight('recomendacao', {
-  card: 'Recomendação #1 · No catálogo',
+  card: 'Recomendação #1',
   veiculo: 'VW T-Cross 1.4 TSI · 2024',
   preco: 'R$ 118.990 FIPE',
   pergunta: 'Por que este veículo?',
   resposta: 'Combina orçamento de até R$ 120k com uso misto cidade/estrada. Motor 1.4 turbo entrega 150 cv com bom consumo no dia a dia.',
   pontos_fortes: ['6 airbags de série', '0-100 em 8,2s', '13,4 km/L cidade'],
   atencao: ['Próximo ao teto do orçamento', 'Porta-malas menor'],
-  rodape: '+ 4 outras opções rankeadas pela IA',
+  rodape: '+ 4 outras opções no seu ranking',
   preco_valor: 118990,
 });
 
-// ── [S7] Highlight Financiamento ─────────────────────────────────────────────
+// ── [S7] Highlight Financiamento — N9: consórcio com taxa adm. explícita ────
+// Consórcio: 60× R$ 64.000 × 1,18 (taxa adm. ~18%) = R$ 1.258,67/mês.
 upsertHighlight('financiamento', {
   exemplo: 'R$ 80.000 · Entrada 20%',
   veiculo_financiado: 'R$ 64.000',
   opcoes: [
     { modalidade: 'CDC', parcela: '48x R$ 1.792', total: 'Total: R$ 86.016' },
     { modalidade: 'Leasing', parcela: '48x R$ 1.620', total: 'Total: R$ 77.760' },
-    { modalidade: 'Consórcio', parcela: '60x R$ 1.067', total: '0% de juros!' },
+    { modalidade: 'Consórcio', parcela: '60x R$ 1.259', total: 'Total: R$ 75.520 · taxa adm. ~18%' },
     { modalidade: 'Assinatura', parcela: 'R$ 3.500/mês', total: 'Sem entrada' },
   ],
-  selo: 'Consórcio: menor custo total',
   // parâmetros numéricos para o simulador interativo (taxas derivadas das parcelas exibidas)
   params: {
     valor_padrao: 80000,
     entrada_pct: 20,
     cdc: { meses: 48, taxa_mes: 0.0126 },
     leasing: { meses: 48, taxa_mes: 0.0049 },
-    consorcio: { meses: 60, taxa_mes: 0 },
-    assinatura: { mensalidade: 3500 },
+    consorcio: { meses: 60, taxa_mes: 0, taxa_adm: 0.18 },
+    assinatura: { mensalidade: 3500, meses: 48, obs: 'sem posse do veículo' },
   },
 });
 
-// ── [S5] Ferramentas ─────────────────────────────────────────────────────────
+// ── [S5] Ferramentas — N5: discurso único sobre "IA" ─────────────────────────
 clearTools();
 [
   { title: 'Buscar Veículos', description: 'Explore o catálogo completo com preços FIPE', action_label: 'Explorar', href: '/busca', icon: 'Search', badge: null },
-  { title: 'Decida Meu Carro IA', description: 'Responda 10 perguntas e receba um ranking personalizado', action_label: 'Gerar recomendação', href: '/decida', icon: 'Sparkles', badge: 'IA' },
-  { title: 'Comparar IA', description: 'Compare veículos lado a lado com análise honesta', action_label: 'Comparar', href: '/comparar', icon: 'Scale', badge: 'IA' },
+  { title: 'Decida Meu Carro', description: 'Responda 4 perguntas e receba um ranking personalizado', action_label: 'Gerar recomendação', href: '/decida', icon: 'Sparkles', badge: null },
+  { title: 'Comparar', description: 'Compare veículos lado a lado com dados FIPE', action_label: 'Comparar', href: '/comparar', icon: 'Scale', badge: null },
   { title: 'Calculadora de payback', description: 'Descubra em quantos meses o elétrico compensa', action_label: 'Calcular', href: '/calculadora', icon: 'Calculator', badge: 'Inédito' },
   { title: 'Financiamento', description: 'CDC, Leasing, Consórcio e Assinatura comparados', action_label: 'Simular', href: '/financiamento', icon: 'Banknote', badge: null },
   { title: 'Rankings', description: 'Vendas FENABRAVE oficiais mês a mês', action_label: 'Ver ranking', href: '/rankings', icon: 'Trophy', badge: null },

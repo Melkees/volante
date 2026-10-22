@@ -1,9 +1,13 @@
 // Blocos compartilhados do Volante — mantêm as seções visualmente coesas.
-import { useEffect, useRef, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
-/** Revelação padrão: fade + sobe ao entrar no viewport. */
+/**
+ * Revelação padrão (N10v): por padrão renderiza SEM animação (nada de página
+ * "vazia"); só se o bloco estiver abaixo da dobra no mount (medido no layout
+ * effect, antes do paint) troca pelo fade curto (≤350ms) uma única vez.
+ */
 export function Reveal({
   children,
   delay = 0,
@@ -13,12 +17,24 @@ export function Reveal({
   delay?: number;
   className?: string;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [animar, setAnimar] = useState(false);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (el && el.getBoundingClientRect().top >= window.innerHeight) {
+      setAnimar(true); // abaixo da dobra: habilita a animação
+    }
+  }, []);
+
+  if (!animar) return <div ref={ref} className={className}>{children}</div>;
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.55, delay, ease: [0.21, 0.6, 0.35, 1] }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.35, delay, ease: [0.21, 0.6, 0.35, 1] }}
       className={className}
     >
       {children}
@@ -26,32 +42,7 @@ export function Reveal({
   );
 }
 
-/** Contador animado — anima até `target` quando o elemento entra na tela. */
-export function useCountUp(target: number, duration = 1600) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-40px' });
-  const [value, setValue] = useState(0);
-
-  useEffect(() => {
-    if (!inView) return;
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setValue(target);
-      return;
-    }
-    let raf = 0;
-    const t0 = performance.now();
-    const tick = (t: number) => {
-      const p = Math.min(1, (t - t0) / duration);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setValue(target * eased);
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [inView, target, duration]);
-
-  return { ref, value };
-}
+// Contadores animados vivem em components/Numero.tsx (valor final sempre no DOM).
 
 /** Cabeçalho de seção padrão: eyebrow + título display + subtítulo. */
 export function SectionHeading({

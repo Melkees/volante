@@ -1,13 +1,11 @@
-import { useEffect } from 'react';
 import Rankings from '@/sections/Rankings';
+import { usePageMeta } from '@/lib/usePageMeta';
 
 export default function RankingsPage() {
-  useEffect(() => {
-    document.title = 'Rankings — Volante';
-  }, []);
+  usePageMeta({ title: 'Rankings FENABRAVE — Volante' });
   return (
     <main className="pt-16">
-      <Rankings />
+      <Rankings completo />
     </main>
   );
 }

@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { motion } from 'framer-motion';
 import { Cookie } from 'lucide-react';
 
 const KEY = 'volante:cookies';
 
+// N21: enquanto o banner está visível, adiciona padding-bottom no <body> para o
+// rodapé não ficar escondido atrás dele. Removido ao aceitar/desmontar.
 export default function CookieBar() {
   const [show, setShow] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     try {
@@ -15,6 +18,27 @@ export default function CookieBar() {
       setShow(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (!show) {
+      document.body.style.paddingBottom = '';
+      return;
+    }
+    const aplicar = () => {
+      const h = ref.current?.offsetHeight ?? 0;
+      document.body.style.paddingBottom = h > 0 ? `${h + 16}px` : '';
+    };
+    aplicar();
+    // banner muda de altura com resize/quebra de linha
+    const ro = new ResizeObserver(aplicar);
+    if (ref.current) ro.observe(ref.current);
+    window.addEventListener('resize', aplicar);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', aplicar);
+      document.body.style.paddingBottom = '';
+    };
+  }, [show]);
 
   const accept = () => {
     try {
@@ -29,6 +53,7 @@ export default function CookieBar() {
     <>
       {show && (
         <motion.div
+          ref={ref}
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}

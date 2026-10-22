@@ -37,7 +37,7 @@ function CategoryCard({ cat, delay }: { cat: Category; delay: number }) {
         <div className="mt-4 flex items-start justify-between gap-3 border-b border-ink/20 pb-4 transition-colors duration-300 group-hover:border-ink/60">
           <div className="min-w-0">
             <h3 className="truncate font-display text-xl font-medium text-foreground">{cat.name}</h3>
-            <p className="mt-0.5 truncate text-xs text-muted-foreground">{cat.examples}</p>
+            <p className="mt-0.5 truncate text-sm text-foreground/75">{cat.examples}</p>
           </div>
           <Icon className="mt-0.5 h-5 w-5 shrink-0 text-ink/35 transition-colors duration-300 group-hover:text-primary" />
         </div>

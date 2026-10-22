@@ -4,6 +4,7 @@ import { Link, useSearchParams } from 'react-router';
 import { Search } from 'lucide-react';
 import { api, brl, type Category, type Veiculo } from '@/lib/api';
 import { Section, Reveal } from '@/lib/ui';
+import { usePageMeta } from '@/lib/usePageMeta';
 
 const PAGE = 24;
 const DEBOUNCE_MS = 300;
@@ -29,6 +30,24 @@ const PRECOS_MAX = [
 
 const COMBUSTIVEIS = ['Todas', 'Gasolina', 'Flex', 'Elétrico', 'Híbrido', 'Diesel'];
 
+/** N10v: skeleton com o layout do card (imagem/meta/título/preço) — visual aria-hidden. */
+function SkeletonGrid() {
+  return (
+    <div className="mt-8" aria-hidden="true">
+      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 6 }, (_, i) => (
+          <li key={i} className="plate animate-pulse rounded-sm border border-ink/10 p-5">
+            <div className="h-3 w-24 rounded-sm bg-ink/10" />
+            <div className="mt-3 h-6 w-3/4 rounded-sm bg-ink/10" />
+            <div className="mt-4 h-5 w-28 rounded-sm bg-ink/10" />
+            <div className="mt-2 h-3 w-32 rounded-sm bg-ink/10" />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export default function Busca() {
   const [searchParams, setSearchParams] = useSearchParams();
   const qUrl = searchParams.get('q') ?? '';
@@ -46,9 +65,7 @@ export default function Busca() {
   const [erro, setErro] = useState(false);
   const [carregandoMais, setCarregandoMais] = useState(false);
 
-  useEffect(() => {
-    document.title = 'Busca — Volante';
-  }, []);
+  usePageMeta({ title: 'Busca — Volante' });
 
   // Categorias e marcas (chips/filtro) — catálogo vem de /api/veiculos.
   useEffect(() => {
@@ -289,6 +306,16 @@ export default function Busca() {
           <p className="mt-8 border-b border-ink/20 pb-3 text-xs uppercase tracking-[0.2em] text-muted-foreground" role="status">
             {total === 1 ? '1 veículo encontrado' : `${total.toLocaleString('pt-BR')} veículos encontrados`}
           </p>
+        )}
+
+        {/* N10v: primeira carga/troca de filtro — skeleton em vez de tela solta */}
+        {!erro && veiculos == null && (
+          <>
+            <SkeletonGrid />
+            <span className="sr-only" role="status">
+              Carregando resultados…
+            </span>
+          </>
         )}
 
         {/* Estados: erro, vazio, resultados */}

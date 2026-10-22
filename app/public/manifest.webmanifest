@@ -1,0 +1,22 @@
+{
+  "name": "Volante",
+  "short_name": "Volante",
+  "description": "Inteligência automotiva premium: preços FIPE, rankings FENABRAVE, comparador e calculadoras.",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF8F5",
+  "theme_color": "#1E1C1A",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    }
+  ]
+}

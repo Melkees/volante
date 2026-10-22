@@ -1,22 +1,25 @@
 // [B?] Entrar — email+senha via api.signIn; erro inline vindo do servidor.
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { api } from '@/lib/api';
 import { Section, Reveal } from '@/lib/ui';
+import { usePageMeta } from '@/lib/usePageMeta';
 
 const inputCls =
   'min-h-11 w-full rounded-sm border border-ink/20 bg-card px-3 py-3 text-base text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary';
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  usePageMeta({
+    title: 'Entrar — Volante',
+    description: 'Acesse sua conta do Volante para ver seus favoritos e suas recomendações.',
+    canonical: pathname,
+  });
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
-
-  useEffect(() => {
-    document.title = 'Entrar — Volante';
-  }, []);
 
   const validar = (): string | null => {
     if (!email.trim()) return 'Informe seu email.';
@@ -53,7 +56,7 @@ export default function SignIn() {
               Entrar
             </h1>
             <p className="mt-3 text-base text-muted-foreground">
-              Acesse seus favoritos e seus créditos de recomendação por IA.
+              Acesse seus favoritos e suas recomendações.
             </p>
 
             <form className="mt-8 flex flex-col gap-5" onSubmit={enviar} noValidate>
@@ -101,6 +104,24 @@ export default function SignIn() {
               >
                 {enviando ? 'Entrando…' : 'Entrar'}
               </button>
+
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                Ao entrar, você concorda com os{' '}
+                <Link
+                  to="/termos"
+                  className="font-medium text-foreground underline decoration-ink/30 underline-offset-4 hover:decoration-primary"
+                >
+                  Termos
+                </Link>{' '}
+                e a{' '}
+                <Link
+                  to="/privacidade"
+                  className="font-medium text-foreground underline decoration-ink/30 underline-offset-4 hover:decoration-primary"
+                >
+                  Política de Privacidade
+                </Link>
+                .
+              </p>
             </form>
 
             <p className="mt-6 text-sm text-muted-foreground">
@@ -113,7 +134,7 @@ export default function SignIn() {
               </Link>
             </p>
             <p className="mt-4 text-xs text-muted-foreground">
-              Ainda não é possível recuperar uma senha esquecida — se perder o acesso, crie outra conta.
+              Recuperação de senha chega em breve — guarde bem sua senha.
             </p>
           </div>
         </Reveal>

@@ -1,9 +1,11 @@
-// [Blog/:slug] Leitura de artigo — /api/posts/:slug, corpo HTML simples em wrapper tipográfico.
-import { useEffect, useState } from 'react';
+// [Blog/:slug] Leitura de artigo — /api/posts/:slug, corpo HTML sanitizado em wrapper tipográfico.
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { ArrowLeft } from 'lucide-react';
 import { api, type Post } from '@/lib/api';
 import { Section, Reveal } from '@/lib/ui';
+import { usePageMeta } from '@/lib/usePageMeta';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 const fmtData = (iso: string) => {
   const d = new Date(`${iso}T12:00:00`);
@@ -17,13 +19,14 @@ export default function BlogPost() {
   const [naoEncontrado, setNaoEncontrado] = useState(false);
   const [erro, setErro] = useState(false);
 
-  useEffect(() => {
-    if (!post) {
-      document.title = 'Blog — Volante';
-      return;
-    }
-    document.title = `${post.titulo} — Volante`;
-  }, [post]);
+  // N10: HTML do post nunca vai cru para dangerouslySetInnerHTML.
+  const conteudoSeguro = useMemo(() => (post ? sanitizeHtml(post.conteudo) : ''), [post]);
+
+  usePageMeta({
+    title: post ? `${post.titulo} — Volante` : 'Blog — Volante',
+    description: post?.resumo,
+    canonical: `/blog/${slug ?? ''}`,
+  });
 
   useEffect(() => {
     if (!slug) return;
@@ -103,7 +106,7 @@ export default function BlogPost() {
 
                 <div
                   className="mt-8 max-w-[65ch] text-base text-foreground [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2 [&_h2]:mb-3 [&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-medium [&_h2]:text-foreground [&_h3]:mb-2 [&_h3]:mt-6 [&_h3]:font-display [&_h3]:text-xl [&_h3]:font-medium [&_h3]:text-foreground [&_li]:mb-1 [&_li]:leading-relaxed [&_li]:text-foreground/85 [&_p]:mb-4 [&_p]:leading-relaxed [&_p]:text-foreground/85 [&_strong]:font-semibold [&_strong]:text-foreground [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-5"
-                  dangerouslySetInnerHTML={{ __html: post.conteudo }}
+                  dangerouslySetInnerHTML={{ __html: conteudoSeguro }}
                 />
               </article>
 

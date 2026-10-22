@@ -4,16 +4,19 @@ import { Link } from 'react-router';
 import { X } from 'lucide-react';
 import { api, brl, type User, type Veiculo } from '@/lib/api';
 import { Section, Reveal } from '@/lib/ui';
+import { usePageMeta } from '@/lib/usePageMeta';
 
 export default function Favoritos() {
   const [user, setUser] = useState<User | null>(null);
   const [pronto, setPronto] = useState(false);
   const [favoritos, setFavoritos] = useState<Veiculo[] | null>(null);
-  const [erro, setErro] = useState<string | null>(null);
+  const [erro, setErro] = useState(false);
   const [removendo, setRemovendo] = useState<number | null>(null);
 
-  useEffect(() => {
-    document.title = 'Favoritos — Volante';
+  usePageMeta({ title: 'Favoritos — Volante', canonical: '/favoritos' });
+
+  const carregar = () => {
+    setErro(false);
     let alive = true;
     api
       .me()
@@ -25,21 +28,29 @@ export default function Favoritos() {
           api
             .favoritos()
             .then((f) => alive && setFavoritos(f.favoritos))
-            .catch((err: Error) => alive && setErro(err.message));
+            .catch(() => alive && setErro(true));
         }
       })
-      .catch(() => alive && setPronto(true));
+      .catch(() => {
+        if (alive) {
+          setPronto(true);
+          setErro(true);
+        }
+      });
     return () => {
       alive = false;
     };
-  }, []);
+  };
+
+  useEffect(() => carregar(), []);
 
   const remover = (id: number) => {
     setRemovendo(id);
+    setErro(false);
     api
       .desfavoritar(id)
       .then(() => setFavoritos((prev) => (prev ? prev.filter((v) => v.id !== id) : prev)))
-      .catch((err: Error) => setErro(err.message))
+      .catch(() => setErro(true))
       .finally(() => setRemovendo(null));
   };
 
@@ -77,9 +88,18 @@ export default function Favoritos() {
         )}
 
         {erro && (
-          <p role="alert" className="mt-8 rounded-sm border border-ink/15 bg-card px-4 py-3 text-sm text-foreground">
-            {erro}
-          </p>
+          <div className="mt-8 max-w-md">
+            <p role="alert" className="rounded-sm border border-ink/15 bg-card px-4 py-3 text-sm text-foreground">
+              Não foi possível carregar seus favoritos agora.
+            </p>
+            <button
+              type="button"
+              onClick={carregar}
+              className="mt-4 inline-flex min-h-11 items-center rounded-sm bg-ink px-5 text-sm font-medium text-background hover:opacity-90"
+            >
+              Tentar de novo
+            </button>
+          </div>
         )}
 
         {/* Com sessão */}

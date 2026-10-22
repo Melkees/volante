@@ -7,7 +7,7 @@
  },
  {
   "position": 2,
-  "name": "VW - VolksWagen Polo",
+  "name": "Volkswagen Polo",
   "value": 11095,
   "href": "/busca"
  },
@@ -19,13 +19,13 @@
  },
  {
   "position": 4,
-  "name": "VW - VolksWagen T-Cross",
+  "name": "Volkswagen T-Cross",
   "value": 9339,
   "href": "/busca"
  },
  {
   "position": 5,
-  "name": "VW - VolksWagen Tera",
+  "name": "Volkswagen Tera",
   "value": 8725,
   "href": "/busca"
  },
@@ -43,7 +43,7 @@
  },
  {
   "position": 8,
-  "name": "GM - Chevrolet Onix",
+  "name": "Chevrolet Onix",
   "value": 7133,
   "href": "/busca"
  },
@@ -79,7 +79,7 @@
  },
  {
   "position": 14,
-  "name": "GM - Chevrolet Onix Plus",
+  "name": "Chevrolet Onix Plus",
   "value": 5350,
   "href": "/busca"
  },
@@ -103,13 +103,13 @@
  },
  {
   "position": 18,
-  "name": "VW - VolksWagen Saveiro",
+  "name": "Volkswagen Saveiro",
   "value": 4838,
   "href": "/busca"
  },
  {
   "position": 19,
-  "name": "GM - Chevrolet Tracker",
+  "name": "Chevrolet Tracker",
   "value": 4530,
   "href": "/busca"
  },
@@ -151,7 +151,7 @@
  },
  {
   "position": 26,
-  "name": "Omoda Omoda 5",
+  "name": "Omoda 5",
   "value": 3616,
   "href": "/busca"
  },
@@ -181,7 +181,7 @@
  },
  {
   "position": 31,
-  "name": "VW - VolksWagen Nivus",
+  "name": "Volkswagen Nivus",
   "value": 3060,
   "href": "/busca"
  },
@@ -211,13 +211,13 @@
  },
  {
   "position": 36,
-  "name": "GM - Chevrolet Sonic",
+  "name": "Chevrolet Sonic",
   "value": 2713,
   "href": "/busca"
  },
  {
   "position": 37,
-  "name": "GM - Chevrolet S10",
+  "name": "Chevrolet S10",
   "value": 2684,
   "href": "/busca"
  },
@@ -229,13 +229,13 @@
  },
  {
   "position": 39,
-  "name": "GM - Chevrolet Spin",
+  "name": "Chevrolet Spin",
   "value": 2379,
   "href": "/busca"
  },
  {
   "position": 40,
-  "name": "VW - VolksWagen Virtus",
+  "name": "Volkswagen Virtus",
   "value": 2315,
   "href": "/busca"
  },
@@ -277,7 +277,7 @@
  },
  {
   "position": 47,
-  "name": "VW - VolksWagen Taos",
+  "name": "Volkswagen Taos",
   "value": 1739,
   "href": "/busca"
  },

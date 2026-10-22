@@ -1,25 +1,28 @@
 // [B?] Criar conta — nome/email/senha via api.signUp; benefícios honestos em chips.
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { api } from '@/lib/api';
 import { Section, Reveal } from '@/lib/ui';
+import { usePageMeta } from '@/lib/usePageMeta';
 
 const inputCls =
   'min-h-11 w-full rounded-sm border border-ink/20 bg-card px-3 py-3 text-base text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary';
 
-const BENEFICIOS = ['20 recomendações de IA por mês', 'Favoritos'];
+const BENEFICIOS = ['20 recomendações por mês', 'Favoritos'];
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  usePageMeta({
+    title: 'Criar conta — Volante',
+    description: 'Crie sua conta grátis no Volante para salvar favoritos e receber recomendações.',
+    canonical: pathname,
+  });
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
-
-  useEffect(() => {
-    document.title = 'Criar conta — Volante';
-  }, []);
 
   const validar = (): string | null => {
     if (!nome.trim()) return 'Informe seu nome.';
@@ -134,6 +137,24 @@ export default function SignUp() {
               >
                 {enviando ? 'Criando…' : 'Criar conta'}
               </button>
+
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                Ao criar conta, você concorda com os{' '}
+                <Link
+                  to="/termos"
+                  className="font-medium text-foreground underline decoration-ink/30 underline-offset-4 hover:decoration-primary"
+                >
+                  Termos
+                </Link>{' '}
+                e a{' '}
+                <Link
+                  to="/privacidade"
+                  className="font-medium text-foreground underline decoration-ink/30 underline-offset-4 hover:decoration-primary"
+                >
+                  Política de Privacidade
+                </Link>
+                .
+              </p>
             </form>
 
             <p className="mt-6 text-sm text-muted-foreground">

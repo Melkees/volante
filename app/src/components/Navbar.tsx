@@ -90,7 +90,7 @@ export default function Navbar() {
   }, [open]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-ink/10 bg-background/92 backdrop-blur-md">
+    <header className="fixed inset-x-0 top-0 z-[51] border-b border-ink/10 bg-background/92 backdrop-blur-md">
       <nav className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-3 px-4 md:px-8">
         <Link to="/" aria-label="Volante — página inicial" className="inline-flex shrink-0 items-center py-2.5">
           <Brand />
@@ -205,19 +205,19 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Scrim mobile — escurece o resto da página; clique fora fecha */}
+      {/* Scrim mobile — escurece o resto da página (header fica acima, sem escurecer); clique fora fecha */}
       {open && (
         <button
           type="button"
           aria-label="Fechar menu"
           onClick={() => setOpen(false)}
-          className="fixed inset-0 -z-10 bg-ink/40 lg:hidden"
+          className="fixed inset-x-0 bottom-0 top-16 z-50 bg-ink/40 lg:hidden"
         />
       )}
 
       {/* Painel mobile — porcelana sólida */}
       {open && (
-        <div className="mx-auto max-w-7xl border-b border-ink/10 bg-background px-4 pb-4 shadow-[0_20px_48px_-24px_rgba(30,28,26,0.4)] lg:hidden md:px-8">
+        <div className="relative z-50 mx-auto max-w-7xl border-b border-ink/10 bg-background px-4 pb-4 shadow-[0_20px_48px_-24px_rgba(30,28,26,0.4)] lg:hidden md:px-8">
           {/* Busca no topo do painel */}
           <button
             type="button"
@@ -242,7 +242,7 @@ export default function Navbar() {
                 </Link>
               </li>
             ))}
-            <li className="px-3 pb-1 pt-4 text-[0.65rem] font-semibold tracking-[0.24em] text-muted-foreground/80">
+            <li className="px-3 pb-1 pt-4 text-[0.65rem] font-semibold tracking-[0.24em] text-muted-foreground">
               PARCEIROS
             </li>
             {PARCEIROS.map((p) => (

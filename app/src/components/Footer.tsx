@@ -59,7 +59,7 @@ export default function Footer() {
             <Brand size="lg" tagline onInk />
             <p className="mt-6 max-w-md text-sm leading-relaxed text-ink-foreground/60">
               Plataforma automotiva gratuita: compare modelos, simule custos e descubra o carro
-              certo com IA. Dados oficiais FIPE e FENABRAVE.
+              certo com o recomendador do Volante. Dados oficiais FIPE e FENABRAVE.
             </p>
           </div>
 

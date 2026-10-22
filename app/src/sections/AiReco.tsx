@@ -1,16 +1,17 @@
-// [S7] Seção IA: 4 passos numerados em serif + card tarja-preta "Recomendação #1".
+// [S7] Seção de recomendação: 4 passos numerados em serif + card tarja-preta "Recomendação #1".
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 import { Check, AlertTriangle, ArrowRight, Sparkles } from 'lucide-react';
 import { Section, SectionHeading, Reveal } from '@/lib/ui';
 import { api, brl, type Highlights } from '@/lib/api';
 
 const PASSOS = [
   {
-    titulo: 'Perfil em 10 perguntas',
-    desc: 'Orçamento, uso, perfil familiar, km por mês, combustível, câmbio e suas prioridades',
+    titulo: 'Perfil em 4 perguntas',
+    desc: 'Orçamento, uso, perfil familiar e suas prioridades — sem enrolação',
   },
   {
-    titulo: 'IA analisa o catálogo com preços FIPE',
+    titulo: 'Nosso recomendador cruza tudo com preços FIPE',
     desc: 'Especificações técnicas reais, consumo INMETRO e preço atualizado do mês',
   },
   {
@@ -25,24 +26,25 @@ const PASSOS = [
 
 export default function AiReco() {
   const [h, setH] = useState<Highlights | null>(null);
+  const [erro, setErro] = useState(false);
 
   useEffect(() => {
-    api.highlights().then(setH);
+    api.highlights().then(setH).catch(() => setErro(true));
   }, []);
 
   const r = h?.recomendacao;
 
   return (
-    <Section id="ia">
+    <Section id="recomendacao">
       <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
         {/* Passos */}
         <div>
           <SectionHeading
             align="left"
-            eyebrow="INTELIGÊNCIA ARTIFICIAL"
+            eyebrow="RECOMENDADOR"
             title="Não sabe qual carro comprar?"
-            highlight="Deixa a IA decidir."
-            sub="Responda 10 perguntas sobre seu perfil: orçamento, uso diário, família, combustível e prioridades. Nossa IA cruza tudo isso com preços FIPE reais e entrega opções rankeadas com análise honesta."
+            highlight="Deixa o Volante decidir."
+            sub="Responda 4 perguntas sobre seu perfil: orçamento, uso diário, família e prioridades. Nosso recomendador cruza tudo isso com preços FIPE reais e entrega opções rankeadas com análise honesta."
           />
 
           <div className="relative space-y-9 pl-2">
@@ -57,7 +59,7 @@ export default function AiReco() {
                   </span>
                   <div>
                     <p className="font-medium">{p.titulo}</p>
-                    <p className="mt-1 text-sm text-muted-foreground">{p.desc}</p>
+                    <p className="mt-1 text-sm text-foreground/75">{p.desc}</p>
                   </div>
                 </div>
               </Reveal>
@@ -65,13 +67,13 @@ export default function AiReco() {
           </div>
 
           <Reveal delay={0.2}>
-            <a
-              href="/decida"
+            <Link
+              to="/decida"
               className="mt-11 inline-flex min-h-[44px] items-center gap-2 rounded-sm bg-ink px-6 py-3 font-semibold text-ink-foreground transition-colors duration-200 hover:bg-ink/85"
             >
               Gerar minha recomendação
               <ArrowRight className="h-4 w-4" />
-            </a>
+            </Link>
           </Reveal>
         </div>
 
@@ -83,13 +85,10 @@ export default function AiReco() {
                 <Sparkles className="h-4 w-4 text-bronze-light" />
                 RECOMENDAÇÃO N.º 1
               </span>
-              <span className="flex items-center gap-2">
-                <span className="rounded-sm border border-ink-foreground/15 px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-ink-foreground/70">
-                  Exemplo ilustrativo
-                </span>
-                <span className="rounded-sm border border-bronze-light/40 px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-bronze-light">
-                  No catálogo
-                </span>
+              {/* Selo "Exemplo ilustrativo" permanece; "No catálogo" saiu (vinha fixo e
+                  duplicava informação do payload — a home só mostra o que veio). */}
+              <span className="rounded-sm border border-ink-foreground/15 px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-ink-foreground/70">
+                Exemplo ilustrativo
               </span>
             </div>
 
@@ -136,7 +135,7 @@ export default function AiReco() {
               </div>
             </div>
 
-            <p className="mt-6 text-sm text-ink-foreground/60">{r?.rodape ?? '+ 4 outras opções rankeadas pela IA'}</p>
+            <p className="mt-6 text-sm text-ink-foreground/60">{r?.rodape ?? '+ 4 outras opções rankeadas pelo recomendador'}</p>
           </div>
         </Reveal>
       </div>

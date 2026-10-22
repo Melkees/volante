@@ -1,10 +1,11 @@
-// [B?] Decida com IA — questionário em 4 passos + recomendação por heurística
+// [B?] Decida — questionário em 4 passos + recomendação por heurística
 // local sobre /api/veiculos. Não é IA de verdade: o selo e o rodapé deixam claro.
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { Sparkles, ArrowLeft, ArrowRight, Wand2 } from 'lucide-react';
 import { api, brl, type Veiculo } from '@/lib/api';
 import { Section, Reveal } from '@/lib/ui';
+import { usePageMeta } from '@/lib/usePageMeta';
 import { Slider } from '@/components/ui/slider';
 
 const ORCAMENTO_MIN = 30_000;
@@ -41,15 +42,13 @@ export default function Decida() {
   const [creditos, setCreditos] = useState<number | null>(null);
   const [erroIA, setErroIA] = useState<string | null>(null);
 
-  useEffect(() => {
-    document.title = 'Decida com IA — Volante';
-  }, []);
+  usePageMeta({ title: 'Decida — Volante' });
 
   const gerar = () => {
     setEstado('carregando');
     setErroIA(null);
     let alive = true;
-    // 1 crédito de IA antes de qualquer resultado (20 logado · 1 grátis anônimo).
+    // 1 crédito de recomendação antes de qualquer resultado (20 logado · 1 grátis anônimo).
     api
       .gerarIA()
       .then((r) => {
@@ -91,8 +90,16 @@ export default function Decida() {
       })
       .catch((err: Error) => {
         if (!alive) return;
-        setErroIA(err.message);
-        setEstado('sem-creditos');
+        // N5: só "acabaram os créditos"/403 é falta de recomendações — qualquer
+        // outra falha (rede, cold start) é erro genérico com Tentar de novo.
+        if (/acabaram|403/.test(err.message)) {
+          setErroIA(err.message);
+          setEstado('sem-creditos');
+        } else {
+          console.error('gerar recomendações falhou:', err.message);
+          setErroIA(null);
+          setEstado('erro');
+        }
       });
     return () => {
       alive = false;
@@ -130,11 +137,11 @@ export default function Decida() {
             Heurística local — não é IA de verdade
           </span>
           <h1 className="mt-4 font-display text-3xl font-medium leading-[1.12] tracking-[-0.01em] text-foreground md:text-[2.75rem]">
-            Decida com <em className="font-medium italic text-primary">IA</em>
+            Deixe o Volante <em className="font-medium italic text-primary">decidir</em>
           </h1>
           <p className="mt-3 max-w-xl text-base text-muted-foreground">
             Quatro perguntas rápidas e um ranking honesto, montado na hora sobre a tabela FIPE de
-            set/2026. Sem cadastro, sem servidor de IA — só heurística local.
+            set/2026. Sem cadastro para testar — só heurística local.
           </p>
         </Reveal>
 
@@ -203,9 +210,6 @@ export default function Decida() {
                       </button>
                     ))}
                   </div>
-                  <p className="mt-3 text-sm text-muted-foreground">
-                    A maioria do catálogo FIPE não tem categoria — “Todas” busca tudo.
-                  </p>
                 </div>
               )}
 
@@ -319,16 +323,27 @@ export default function Decida() {
           </p>
         )}
 
-        {/* Erro */}
+        {/* Erro genérico (rede, cold start…) — N5: ≠ falta de recomendações */}
         {estado === 'erro' && (
-          <p className="mt-10 text-base text-muted-foreground">Dados indisponíveis.</p>
+          <div className="mt-10 max-w-xl">
+            <p role="alert" className="text-base text-foreground">
+              Não foi possível gerar agora. Tente de novo.
+            </p>
+            <button
+              type="button"
+              onClick={gerar}
+              className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-sm bg-ink px-5 text-sm font-medium text-background hover:opacity-90"
+            >
+              <Wand2 className="h-4 w-4" aria-hidden /> Tentar de novo
+            </button>
+          </div>
         )}
 
-        {/* Créditos/grátis esgotados — erro do servidor em bloco plate com CTA */}
+        {/* Recomendações esgotadas — texto do servidor em bloco plate com CTA */}
         {estado === 'sem-creditos' && (
           <div className="plate mt-10 max-w-xl rounded-sm border border-ink/10 bg-card p-6">
             <p role="alert" className="text-base text-foreground">
-              {erroIA ?? 'Seus créditos de IA acabaram.'}
+              {erroIA ?? 'Suas 20 recomendações do mês acabaram.'}
             </p>
             <Link
               to="/users/sign_up"
@@ -337,7 +352,7 @@ export default function Decida() {
               Criar conta
             </Link>
             <p className="mt-3 text-sm text-muted-foreground">
-              Contas criam 20 recomendações de IA por mês.
+              Contas criam 20 recomendações por mês.
             </p>
           </div>
         )}
@@ -410,7 +425,7 @@ export default function Decida() {
                 recomendação personalizada de verdade.
                 {creditos != null && (
                   <span className="ml-2 inline-block rounded-full border border-ink/15 bg-background px-3 py-0.5 text-xs text-muted-foreground">
-                    créditos de IA: {creditos}
+                    recomendações restantes: {creditos}
                   </span>
                 )}
               </p>

@@ -1,6 +1,7 @@
 // [LeadForm] Registro de interesse (nome/email/mensagem) → POST /api/leads.
 // Honestidade: é registro de interesse — sem promessa de prazo ou contratação.
 import { useState } from 'react';
+import { Link } from 'react-router';
 import { CheckCircle2 } from 'lucide-react';
 import { api } from '@/lib/api';
 
@@ -124,6 +125,16 @@ export default function LeadForm({ tipo }: { tipo: LeadTipo }) {
       >
         {enviando ? 'Enviando…' : 'Quero saber mais'}
       </button>
+      <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+        Ao enviar, você concorda com a{' '}
+        <Link
+          to="/privacidade"
+          className="font-medium text-foreground underline decoration-ink/30 underline-offset-4 hover:decoration-primary"
+        >
+          Política de Privacidade
+        </Link>
+        . Usamos seu e-mail só para responder este contato.
+      </p>
     </form>
   );
 }

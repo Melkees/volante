@@ -1,8 +1,9 @@
 // [ParceiroTipo] Página de um tipo de parceria — recebe props (rota instanciada em outra frente).
-import { useEffect } from 'react';
+import { useLocation } from 'react-router';
 import { Building2, ShieldCheck, SearchCheck, type LucideIcon } from 'lucide-react';
 import { Section } from '@/lib/ui';
 import LeadForm, { type LeadTipo } from '@/components/LeadForm';
+import { usePageMeta } from '@/lib/usePageMeta';
 
 const ICONES: Record<LeadTipo, LucideIcon> = {
   concessionarias: Building2,
@@ -30,7 +31,7 @@ const INCLUI: Record<LeadTipo, string[]> = {
   parceiro: [
     'Conversa inicial para entender o seu negócio e o encaixe com o Volante.',
     'Avaliação de critério — a rede cresce devagar e com propósito.',
-    'Retorno pelo e-mail informado no formulário.',
+    'Retorno pelo e-mail informado, em até 2 dias úteis.',
   ],
 };
 
@@ -43,9 +44,12 @@ export default function ParceiroTipo({
   titulo: string;
   descricao: string;
 }) {
-  useEffect(() => {
-    document.title = `${titulo} — Volante`;
-  }, [titulo]);
+  const { pathname } = useLocation();
+  usePageMeta({
+    title: `${titulo} — Volante`,
+    description: descricao,
+    canonical: pathname,
+  });
 
   const Icone = ICONES[tipo] ?? Building2;
 

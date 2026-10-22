@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 import { Trophy, Zap } from 'lucide-react';
-import { Section, SectionHeading, Reveal, useCountUp } from '@/lib/ui';
+import { Section, SectionHeading, Reveal } from '@/lib/ui';
+import Numero, { formatarNumero } from '@/components/Numero';
 import { api, type Rankings, type StatRow, type RankingEntry } from '@/lib/api';
 import { cn } from '@/lib/utils';
 
@@ -30,23 +32,22 @@ function parseStat(value: string): { num: number; prefix: string; suffix: string
 }
 
 function formatPtBr(n: number, decimals: number): string {
-  return n.toLocaleString('pt-BR', {
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
-  });
+  return formatarNumero(n, decimals);
 }
 
 function StatCard({ row, delay }: { row: StatRow; delay: number }) {
   const { num, prefix, suffix, decimals } = parseStat(row.value);
-  const { ref, value } = useCountUp(num);
   return (
     <Reveal delay={delay} className="h-full">
       <div className="plate card-hover h-full rounded-sm border border-ink/10 p-5 text-center md:p-6">
-        <span ref={ref} className="font-display text-2xl font-medium text-foreground md:text-3xl">
-          {prefix}
-          {formatPtBr(value, decimals)}
-          <span className="text-primary">{suffix}</span>
-        </span>
+        <Numero
+          valor={num}
+          decimals={decimals}
+          prefixo={prefix}
+          sufixo={suffix}
+          sufixoClassName="text-primary"
+          className="font-display text-2xl font-medium text-foreground md:text-3xl"
+        />
         <p className="mt-2 text-[0.68rem] font-medium uppercase tracking-[0.16em] text-muted-foreground">
           {row.label}
         </p>
@@ -58,6 +59,9 @@ function StatCard({ row, delay }: { row: StatRow; delay: number }) {
 /** Medalas em fundo branco (pódio 2º/3º e listas). */
 const MEDAL = ['text-primary', 'text-slate-500', 'text-amber-700'];
 
+/** Link de busca do veículo: nome completo como termo (nome+marca casam no catálogo). */
+const buscaUrl = (name: string) => `/busca?q=${encodeURIComponent(name)}`;
+
 function PodiumCard({
   entry,
   place,
@@ -67,16 +71,16 @@ function PodiumCard({
   place: 1 | 2 | 3;
   delay: number;
 }) {
-  const { ref, value } = useCountUp(entry.value);
   const first = place === 1;
   return (
     <Reveal
       delay={delay}
       className={cn(first ? 'md:order-2 md:-translate-y-4' : place === 2 ? 'md:order-1' : 'md:order-3')}
     >
-      <div
+      <Link
+        to={buscaUrl(entry.name)}
         className={cn(
-          'card-hover rounded-sm border p-6 text-center',
+          'card-hover block rounded-sm border p-6 text-center',
           first
             ? 'ink-band border-ink shadow-[0_24px_56px_-28px_rgba(30,28,26,0.5)] md:p-8'
             : 'plate border-ink/10',
@@ -102,33 +106,34 @@ function PodiumCard({
           {entry.name}
         </h3>
         <p className={cn('mt-1 font-display font-semibold', first ? 'text-xl text-bronze-light' : 'text-lg text-foreground/90')}>
-          <span ref={ref}>{formatPtBr(value, 0)}</span>{' '}
+          <Numero valor={entry.value} />{' '}
           <span className={cn('text-sm', first ? 'text-ink-foreground/50' : 'text-muted-foreground')}>unid.</span>
         </p>
-      </div>
+      </Link>
     </Reveal>
   );
 }
 
 function CompactRow({ entry, index }: { entry: RankingEntry; index: number }) {
-  const { ref, value } = useCountUp(entry.value);
   return (
     <Reveal delay={index * 0.08} className="w-full md:w-1/2">
-      <div className="plate flex items-center justify-between rounded-sm border border-ink/10 px-4 py-3">
+      <Link
+        to={buscaUrl(entry.name)}
+        className="plate flex items-center justify-between rounded-sm border border-ink/10 px-4 py-3 transition-colors hover:border-ink/40"
+      >
         <span className="flex items-center gap-3 text-sm text-foreground">
           <span className="font-display font-semibold text-muted-foreground">{entry.position}º</span>
           {entry.name}
         </span>
         <span className="font-display text-sm font-semibold text-foreground">
-          <span ref={ref}>{formatPtBr(value, 0)}</span> <span className="text-muted-foreground">unid.</span>
+          <Numero valor={entry.value} /> <span className="text-muted-foreground">unid.</span>
         </span>
-      </div>
+      </Link>
     </Reveal>
   );
 }
 
 function BrandRow({ entry }: { entry: RankingEntry }) {
-  const { ref, value } = useCountUp(entry.value);
   return (
     <li className="flex items-center justify-between border-b border-ink/10 py-2.5 last:border-0">
       <span className="flex items-center gap-3 text-sm text-foreground">
@@ -138,7 +143,7 @@ function BrandRow({ entry }: { entry: RankingEntry }) {
         {entry.name}
       </span>
       <span className="font-display text-sm font-semibold text-foreground">
-        <span ref={ref}>{formatPtBr(value, 0)}</span>
+        <Numero valor={entry.value} />
       </span>
     </li>
   );
@@ -162,13 +167,12 @@ function MiniList({ entries, accent }: { entries: RankingEntry[]; accent: string
   );
 }
 
-export default function Rankings() {
+export default function Rankings({ completo = false }: { completo?: boolean }) {
   const [stats, setStats] = useState<StatRow[]>([]);
   const [data, setData] = useState<Rankings | null>(null);
   const [erro, setErro] = useState(false);
   const eletrificadosTotal = stats.find((s) => s.key === 'rank_eletrificados');
   const total = eletrificadosTotal ? parseStat(eletrificadosTotal.value).num : 0;
-  const totalCup = useCountUp(total);
 
   useEffect(() => {
     api.stats().then((r) => setStats(r.rankings)).catch(() => setErro(true));
@@ -250,9 +254,10 @@ export default function Rankings() {
               <Zap className="h-5 w-5 text-primary" /> Mercado de Eletrificados
             </h3>
             <div className="mb-5 border border-ink/10 bg-secondary/40 px-4 py-3 text-center">
-              <span ref={totalCup.ref} className="font-display text-2xl font-semibold text-primary">
-                {formatPtBr(totalCup.value, 0)}
-              </span>
+              <Numero
+                valor={total}
+                className="font-display text-2xl font-semibold text-primary"
+              />
               <span className="ml-2 text-xs text-muted-foreground">eletrificados emplacados no mês</span>
             </div>
             <div className="grid grid-cols-2 gap-6">
@@ -269,14 +274,45 @@ export default function Rankings() {
         </Reveal>
       </div>
 
-      <Reveal delay={0.1} className="mt-8 text-center">
-        <a
-          href="/rankings"
-          className="inline-flex min-h-[44px] items-center justify-center rounded-sm bg-ink px-6 text-sm font-semibold text-ink-foreground transition-colors hover:bg-ink/85"
-        >
-          Ver ranking completo →
-        </a>
-      </Reveal>
+      {/* Top 50 completo — só na página /rankings, não na home */}
+      {completo && (data?.veiculos_top50 ?? []).length > 0 && (
+        <div className="mt-12">
+          <h3 className="mb-4 font-display text-xl font-medium text-foreground">
+            Top 50 do mês
+          </h3>
+          <ol className="grid gap-x-8 md:grid-cols-2">
+            {(data?.veiculos_top50 ?? []).map((e) => (
+              <li key={`${e.position}-${e.name}`} className="border-b border-ink/10 last:border-0">
+                <Link
+                  to={buscaUrl(e.name)}
+                  className="flex items-center justify-between gap-3 rounded-sm px-1 py-2.5 transition-colors hover:bg-surface-2"
+                >
+                  <span className="flex min-w-0 items-center gap-3 text-sm text-foreground">
+                    <span className="w-7 shrink-0 font-display text-sm font-semibold text-muted-foreground">
+                      {e.position}º
+                    </span>
+                    <span className="truncate">{e.name}</span>
+                  </span>
+                  <span className="shrink-0 font-display text-sm font-semibold text-foreground">
+                    <Numero valor={e.value} />
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
+
+      {!completo && (
+        <Reveal delay={0.1} className="mt-8 text-center">
+          <Link
+            to="/rankings"
+            className="inline-flex min-h-[44px] items-center justify-center rounded-sm bg-ink px-6 text-sm font-semibold text-ink-foreground transition-colors hover:bg-ink/85"
+          >
+            Ver ranking completo →
+          </Link>
+        </Reveal>
+      )}
     </Section>
   );
 }

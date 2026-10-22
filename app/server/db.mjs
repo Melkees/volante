@@ -1,7 +1,8 @@
-// Camada de persistência do CarroLens.
-// Motor primário: better-sqlite3 (app/server/data/app.db).
-// Fallback: store JSON em app/server/data/ (mesma interface) caso o módulo
-// nativo não esteja disponível/compilado no ambiente.
+// Camada de persistência do Volante.
+// Catálogo (read-only no runtime): better-sqlite3, com fallback store JSON em
+// app/server/data/ caso o módulo nativo não esteja disponível/compilado.
+// Transacionais (users/sessions/favoritos/leads/anon_ia): Postgres quando
+// DATABASE_URL existe — o disco do Render free é efêmero e apaga o store local.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -14,9 +15,25 @@ if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 const DB_FILE = path.join(DATA_DIR, 'app.db');
 const JSON_FILE = path.join(DATA_DIR, 'app.json');
 
-let driver = 'sqlite';
-let db = null;
+let driver = 'sqlite'; // engine local: sqlite | json (catálogo + transacionais sem Postgres)
+let db = null; // handle better-sqlite3
+let pgPool = null; // [N1] Pool do Postgres p/ as 5 tabelas transacionais
 let jsonState = null;
+
+// [N1] Dynamic import: em dev o pacote "pg" pode não estar instalado — só
+// carrega quando DATABASE_URL existe (produção).
+if (process.env.DATABASE_URL) {
+  try {
+    const mod = await import('pg');
+    const { Pool } = mod.default ?? mod;
+    pgPool = new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false },
+    });
+  } catch (err) {
+    console.warn('[db] DATABASE_URL definido mas "pg" indisponível — transacionais no store local:', err.message);
+  }
+}
 
 function loadJsonState() {
   if (jsonState) return jsonState;
@@ -44,16 +61,17 @@ try {
   db.pragma('journal_mode = WAL');
 } catch (err) {
   driver = 'json';
-  console.warn('[db] better-sqlite3 indisponível, usando store JSON:', err.message);
+  if (!pgPool) console.warn('[db] better-sqlite3 indisponível, usando store JSON:', err.message);
 }
 
 export function getDriver() {
-  return driver;
+  return pgPool ? 'postgres' : driver;
 }
 
-export function initSchema() {
-  if (driver === 'json') return;
-  db.exec(`
+export async function initSchema() {
+  // Schema local (sqlite) — catálogo e (sem Postgres) as transacionais também.
+  if (db) {
+    db.exec(`
     CREATE TABLE IF NOT EXISTS stats (
       key TEXT PRIMARY KEY,
       label TEXT NOT NULL,
@@ -113,6 +131,7 @@ export function initSchema() {
     'ALTER TABLE veiculos ADD COLUMN consumo_cidade REAL',
     'ALTER TABLE veiculos ADD COLUMN consumo_estrada REAL',
     'ALTER TABLE veiculos ADD COLUMN tanque REAL',
+    'ALTER TABLE veiculos ADD COLUMN pos_fenabrave INTEGER', // [N7] ordem de relevância
   ]) {
     try { db.exec(ddl); } catch { /* coluna já existe */ }
   }
@@ -151,6 +170,49 @@ export function initSchema() {
       usado INTEGER NOT NULL DEFAULT 0
     );
   `);
+  }
+
+  // [N1] No Postgres vão SÓ as 5 transacionais. O catálogo (stats/categories/
+  // ranking/veiculos/posts) segue no caminho local: o seed roda a cada boot e
+  // o repovoa — é read-only no runtime.
+  if (pgPool) {
+    const ddlPg = [
+      `CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        nome TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        senha_hash TEXT NOT NULL,
+        salt TEXT NOT NULL,
+        creditos_ia INTEGER NOT NULL DEFAULT 20,
+        criado_em TEXT NOT NULL
+      )`,
+      `CREATE TABLE IF NOT EXISTS sessions (
+        token TEXT PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        expira_em TEXT NOT NULL
+      )`,
+      `CREATE TABLE IF NOT EXISTS favoritos (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        veiculo_id INTEGER NOT NULL,
+        criado_em TEXT NOT NULL,
+        UNIQUE(user_id, veiculo_id)
+      )`,
+      `CREATE TABLE IF NOT EXISTS leads (
+        id SERIAL PRIMARY KEY,
+        nome TEXT NOT NULL,
+        email TEXT NOT NULL,
+        tipo TEXT NOT NULL,
+        mensagem TEXT,
+        criado_em TEXT NOT NULL
+      )`,
+      `CREATE TABLE IF NOT EXISTS anon_ia (
+        cookie TEXT PRIMARY KEY,
+        usado INTEGER NOT NULL DEFAULT 0
+      )`,
+    ];
+    for (const ddl of ddlPg) await pgPool.query(ddl);
+  }
 }
 
 // ── stats ────────────────────────────────────────────────────────────────────
@@ -341,11 +403,12 @@ export function getVeiculoById(id) {
 let veiculosCache = null;
 const invalidateVeiculos = () => { veiculosCache = null; };
 
-const FIPE_COLS = ['nome', 'marca', 'categoria', 'preco', 'ano', 'combustivel', 'codigo_fipe', 'consumo_cidade', 'consumo_estrada', 'tanque'];
+// pos_fenabrave: posição no top 50 FENABRAVE (null fora dele) — base do sort [N7].
+const FIPE_COLS = ['nome', 'marca', 'categoria', 'preco', 'ano', 'combustivel', 'codigo_fipe', 'consumo_cidade', 'consumo_estrada', 'tanque', 'pos_fenabrave'];
 const fipeParams = (v) => Object.fromEntries(FIPE_COLS.map((c) => [c, v[c] ?? null]));
 
-const insertVeiculoSql = `INSERT INTO veiculos (nome, marca, categoria, preco, ano, combustivel, codigo_fipe, consumo_cidade, consumo_estrada, tanque)
-  VALUES (@nome, @marca, @categoria, @preco, @ano, @combustivel, @codigo_fipe, @consumo_cidade, @consumo_estrada, @tanque)`;
+const insertVeiculoSql = `INSERT INTO veiculos (nome, marca, categoria, preco, ano, combustivel, codigo_fipe, consumo_cidade, consumo_estrada, tanque, pos_fenabrave)
+  VALUES (@nome, @marca, @categoria, @preco, @ano, @combustivel, @codigo_fipe, @consumo_cidade, @consumo_estrada, @tanque, @pos_fenabrave)`;
 
 export function upsertVeiculo(v) {
   if (driver === 'json') {
@@ -391,7 +454,7 @@ export function getVeiculos() {
   if (driver === 'json') rows = loadJsonState().veiculos;
   else {
     rows = db.prepare(
-      'SELECT id, nome, marca, categoria, preco, ano, combustivel, codigo_fipe, consumo_cidade, consumo_estrada, tanque FROM veiculos ORDER BY id'
+      'SELECT id, nome, marca, categoria, preco, ano, combustivel, codigo_fipe, consumo_cidade, consumo_estrada, tanque, pos_fenabrave FROM veiculos ORDER BY id'
     ).all();
   }
   veiculosCache = rows;
@@ -424,18 +487,20 @@ function nextId(list) {
   return list.reduce((max, x) => Math.max(max, Number(x.id) || 0), 0) + 1;
 }
 
-export function getUserByEmail(email) {
+export async function getUserByEmail(email) {
   const e = String(email ?? '').trim().toLowerCase();
+  if (pgPool) return (await pgPool.query('SELECT * FROM users WHERE email = $1', [e])).rows[0] ?? null;
   if (driver === 'json') return loadJsonState().users.find((u) => u.email === e) ?? null;
   return db.prepare('SELECT * FROM users WHERE email = ?').get(e) ?? null;
 }
 
-export function getUserById(id) {
+export async function getUserById(id) {
+  if (pgPool) return (await pgPool.query('SELECT * FROM users WHERE id = $1', [Number(id)])).rows[0] ?? null;
   if (driver === 'json') return loadJsonState().users.find((u) => u.id === Number(id)) ?? null;
   return db.prepare('SELECT * FROM users WHERE id = ?').get(Number(id)) ?? null;
 }
 
-export function createUser({ nome, email, senha }) {
+export async function createUser({ nome, email, senha }) {
   const salt = novoSalt();
   const user = {
     nome: String(nome).trim(),
@@ -445,7 +510,13 @@ export function createUser({ nome, email, senha }) {
     creditos_ia: 20,
     criado_em: new Date().toISOString(),
   };
-  if (driver === 'json') {
+  if (pgPool) {
+    const r = await pgPool.query(
+      'INSERT INTO users (nome, email, senha_hash, salt, creditos_ia, criado_em) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
+      [user.nome, user.email, user.senha_hash, user.salt, user.creditos_ia, user.criado_em]
+    );
+    user.id = r.rows[0].id;
+  } else if (driver === 'json') {
     const s = loadJsonState();
     user.id = nextId(s.users);
     s.users.push(user);
@@ -459,7 +530,14 @@ export function createUser({ nome, email, senha }) {
   return user;
 }
 
-export function decrementarCreditosIA(userId) {
+export async function decrementarCreditosIA(userId) {
+  if (pgPool) {
+    const r = await pgPool.query(
+      'UPDATE users SET creditos_ia = creditos_ia - 1 WHERE id = $1 AND creditos_ia > 0 RETURNING creditos_ia',
+      [Number(userId)]
+    );
+    return r.rows[0]?.creditos_ia ?? null;
+  }
   if (driver === 'json') {
     const s = loadJsonState();
     const u = s.users.find((x) => x.id === Number(userId));
@@ -474,7 +552,11 @@ export function decrementarCreditosIA(userId) {
   return row ? row.creditos_ia : null;
 }
 
-export function createSession(userId, token, expiraEm) {
+export async function createSession(userId, token, expiraEm) {
+  if (pgPool) {
+    await pgPool.query('INSERT INTO sessions (token, user_id, expira_em) VALUES ($1, $2, $3)', [token, Number(userId), expiraEm]);
+    return;
+  }
   if (driver === 'json') {
     const s = loadJsonState();
     s.sessions.push({ token, user_id: Number(userId), expira_em: expiraEm });
@@ -484,20 +566,25 @@ export function createSession(userId, token, expiraEm) {
   db.prepare('INSERT INTO sessions (token, user_id, expira_em) VALUES (?, ?, ?)').run(token, Number(userId), expiraEm);
 }
 
-export function getSession(token) {
+export async function getSession(token) {
   if (!token) return null;
   let sess;
-  if (driver === 'json') sess = loadJsonState().sessions.find((x) => x.token === token) ?? null;
+  if (pgPool) sess = (await pgPool.query('SELECT * FROM sessions WHERE token = $1', [token])).rows[0] ?? null;
+  else if (driver === 'json') sess = loadJsonState().sessions.find((x) => x.token === token) ?? null;
   else sess = db.prepare('SELECT * FROM sessions WHERE token = ?').get(token) ?? null;
   if (!sess) return null;
   if (new Date(sess.expira_em).getTime() < Date.now()) {
-    deleteSession(token);
+    await deleteSession(token);
     return null;
   }
   return sess;
 }
 
-export function deleteSession(token) {
+export async function deleteSession(token) {
+  if (pgPool) {
+    await pgPool.query('DELETE FROM sessions WHERE token = $1', [token]);
+    return;
+  }
   if (driver === 'json') {
     const s = loadJsonState();
     s.sessions = s.sessions.filter((x) => x.token !== token);
@@ -508,13 +595,12 @@ export function deleteSession(token) {
 }
 
 // Favoritos — join com o catálogo (objeto veículo completo), mais recente 1º.
-export function listFavoritos(userId) {
+// O catálogo segue no caminho local (síncrono); só a consulta dos pares é async.
+export async function listFavoritos(userId) {
   let favs;
-  if (driver === 'json') {
-    favs = loadJsonState().favoritos.filter((f) => f.user_id === Number(userId));
-  } else {
-    favs = db.prepare('SELECT * FROM favoritos WHERE user_id = ?').all(Number(userId));
-  }
+  if (pgPool) favs = (await pgPool.query('SELECT * FROM favoritos WHERE user_id = $1', [Number(userId)])).rows;
+  else if (driver === 'json') favs = loadJsonState().favoritos.filter((f) => f.user_id === Number(userId));
+  else favs = db.prepare('SELECT * FROM favoritos WHERE user_id = ?').all(Number(userId));
   favs.sort((a, b) => (a.criado_em < b.criado_em ? 1 : a.criado_em > b.criado_em ? -1 : b.id - a.id));
   const veiculos = getVeiculos();
   return favs
@@ -522,16 +608,23 @@ export function listFavoritos(userId) {
     .filter(Boolean);
 }
 
-export function getFavorito(userId, veiculoId) {
+export async function getFavorito(userId, veiculoId) {
+  if (pgPool) {
+    return (await pgPool.query('SELECT * FROM favoritos WHERE user_id = $1 AND veiculo_id = $2', [Number(userId), Number(veiculoId)])).rows[0] ?? null;
+  }
   if (driver === 'json') {
     return loadJsonState().favoritos.find((f) => f.user_id === Number(userId) && f.veiculo_id === Number(veiculoId)) ?? null;
   }
   return db.prepare('SELECT * FROM favoritos WHERE user_id = ? AND veiculo_id = ?').get(Number(userId), Number(veiculoId)) ?? null;
 }
 
-export function addFavorito(userId, veiculoId) {
-  if (getFavorito(userId, veiculoId)) return false; // idempotente
+export async function addFavorito(userId, veiculoId) {
+  if (await getFavorito(userId, veiculoId)) return false; // idempotente
   const fav = { user_id: Number(userId), veiculo_id: Number(veiculoId), criado_em: new Date().toISOString() };
+  if (pgPool) {
+    await pgPool.query('INSERT INTO favoritos (user_id, veiculo_id, criado_em) VALUES ($1, $2, $3)', [fav.user_id, fav.veiculo_id, fav.criado_em]);
+    return true;
+  }
   if (driver === 'json') {
     const s = loadJsonState();
     s.favoritos.push({ id: nextId(s.favoritos), ...fav });
@@ -542,7 +635,11 @@ export function addFavorito(userId, veiculoId) {
   return true;
 }
 
-export function removeFavorito(userId, veiculoId) {
+export async function removeFavorito(userId, veiculoId) {
+  if (pgPool) {
+    const r = await pgPool.query('DELETE FROM favoritos WHERE user_id = $1 AND veiculo_id = $2', [Number(userId), Number(veiculoId)]);
+    return r.rowCount > 0;
+  }
   if (driver === 'json') {
     const s = loadJsonState();
     const antes = s.favoritos.length;
@@ -553,7 +650,7 @@ export function removeFavorito(userId, veiculoId) {
   return db.prepare('DELETE FROM favoritos WHERE user_id = ? AND veiculo_id = ?').run(Number(userId), Number(veiculoId)).changes > 0;
 }
 
-export function createLead({ nome, email, tipo, mensagem }) {
+export async function createLead({ nome, email, tipo, mensagem }) {
   const lead = {
     nome: String(nome).trim(),
     email: String(email).trim().toLowerCase(),
@@ -561,6 +658,14 @@ export function createLead({ nome, email, tipo, mensagem }) {
     mensagem: mensagem ? String(mensagem) : null,
     criado_em: new Date().toISOString(),
   };
+  if (pgPool) {
+    const r = await pgPool.query(
+      'INSERT INTO leads (nome, email, tipo, mensagem, criado_em) VALUES ($1, $2, $3, $4, $5) RETURNING id',
+      [lead.nome, lead.email, lead.tipo, lead.mensagem, lead.criado_em]
+    );
+    lead.id = r.rows[0].id;
+    return lead;
+  }
   if (driver === 'json') {
     const s = loadJsonState();
     s.leads.push({ id: nextId(s.leads), ...lead });
@@ -572,13 +677,18 @@ export function createLead({ nome, email, tipo, mensagem }) {
 }
 
 // IA anônima — 1 uso grátis por cookie.
-export function getAnonIa(cookie) {
+export async function getAnonIa(cookie) {
   if (!cookie) return null;
+  if (pgPool) return (await pgPool.query('SELECT * FROM anon_ia WHERE cookie = $1', [cookie])).rows[0] ?? null;
   if (driver === 'json') return loadJsonState().anon_ia.find((a) => a.cookie === cookie) ?? null;
   return db.prepare('SELECT * FROM anon_ia WHERE cookie = ?').get(cookie) ?? null;
 }
 
-export function marcarAnonIaUsado(cookie) {
+export async function marcarAnonIaUsado(cookie) {
+  if (pgPool) {
+    await pgPool.query('INSERT INTO anon_ia (cookie, usado) VALUES ($1, 1) ON CONFLICT(cookie) DO UPDATE SET usado=1', [cookie]);
+    return;
+  }
   if (driver === 'json') {
     const s = loadJsonState();
     const existente = s.anon_ia.find((a) => a.cookie === cookie);

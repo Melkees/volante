@@ -1,10 +1,11 @@
 // Hero editorial do Volante — capa de revista: display serif, prato fotográfico com
-// moldura deslocada e faixa de stats com count-up (dados da API).
+// moldura deslocada e faixa de stats com contador seguro (dados da API).
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { api, type StatRow } from '@/lib/api';
-import { useCountUp, Reveal } from '@/lib/ui';
+import { Reveal } from '@/lib/ui';
+import Numero from '@/components/Numero';
 import { Button } from '@/components/ui/button';
 
 /** "4.860+" → { n: 4860, suffix: "+" } · "97%" → { n: 97, suffix: "%" } */
@@ -14,18 +15,12 @@ function parseStat(value: string) {
   return { n: Number.isFinite(n) ? n : 0, suffix: m?.[2] ?? '' };
 }
 
-function formatN(n: number) {
-  return Math.round(n).toLocaleString('pt-BR');
-}
-
 function StatItem({ stat, delay }: { stat: StatRow; delay: number }) {
   const { n, suffix } = parseStat(stat.value);
-  const { ref, value } = useCountUp(n);
   return (
-    <Reveal delay={delay} className="px-2 py-5 text-center sm:px-8 sm:first:pl-0 sm:last:pr-0">
+    <Reveal delay={delay} className="px-2 py-5 text-center md:text-left sm:px-8 sm:first:pl-0 sm:last:pr-0">
       <p className="font-display text-3xl font-medium text-foreground md:text-4xl">
-        <span ref={ref}>{formatN(value)}</span>
-        <span className="text-primary">{suffix}</span>
+        <Numero valor={n} sufixo={suffix} sufixoClassName="text-primary" />
       </p>
       <p className="mt-1.5 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-muted-foreground">
         {stat.label}
@@ -56,7 +51,7 @@ export default function Hero() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-600 opacity-50" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-600" />
               </span>
-              FIPE · FENABRAVE · IA · atualizado mensalmente
+              FIPE · FENABRAVE · atualizado mensalmente
             </span>
           </Reveal>
 
@@ -70,12 +65,12 @@ export default function Hero() {
 
           <Reveal delay={0.2}>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              Compare modelos, consulte preços FIPE e fichas técnicas, simule financiamento e deixe a
-              IA apontar o carro certo para o seu perfil.
+              Compare modelos, consulte preços FIPE e fichas técnicas, simule financiamento e deixe o
+              Volante apontar o carro certo para o seu perfil.
             </p>
           </Reveal>
 
-          <Reveal delay={0.3} className="mt-9 flex flex-col items-stretch justify-center gap-3 sm:flex-row">
+          <Reveal delay={0.3} className="mt-9 flex flex-col items-stretch justify-center gap-3 sm:flex-row md:justify-start">
             <Button
               asChild
               size="lg"
@@ -94,7 +89,7 @@ export default function Hero() {
             >
               <Link to="/decida">
                 <Sparkles className="mr-2 h-4 w-4 text-primary" />
-                Decida com IA
+                Deixa o Volante decidir
               </Link>
             </Button>
           </Reveal>
@@ -124,7 +119,7 @@ export default function Hero() {
               sizes="(min-width: 1024px) 600px, calc(100vw - 2rem)"
               alt="Fiat Cronos em estrada de serra ao entardecer"
               width={964}
-              height={723}
+              height={722}
               fetchPriority="high"
               className="relative aspect-[4/3] w-full rounded-sm border border-ink/10 object-cover shadow-[0_24px_60px_-32px_rgba(30,28,26,0.35)]"
             />

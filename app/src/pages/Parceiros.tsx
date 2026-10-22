@@ -1,9 +1,10 @@
 // [Parceiros] Hub da rede de parceiros — rede em formação, texto honesto.
-import { useEffect } from 'react';
+import { useLocation } from 'react-router';
 import { Link } from 'react-router';
 import { Building2, ShieldCheck, SearchCheck } from 'lucide-react';
 import { Section } from '@/lib/ui';
 import LeadForm from '@/components/LeadForm';
+import { usePageMeta } from '@/lib/usePageMeta';
 
 const CARDS = [
   {
@@ -27,9 +28,13 @@ const CARDS = [
 ];
 
 export default function Parceiros() {
-  useEffect(() => {
-    document.title = 'Parceiros — Volante';
-  }, []);
+  const { pathname } = useLocation();
+  usePageMeta({
+    title: 'Parceiros — Volante',
+    description:
+      'Concessionárias, seguros e vistorias parceiros do Volante. Deixe seu contato e retornamos por e-mail.',
+    canonical: pathname,
+  });
 
   return (
     <main>

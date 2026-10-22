@@ -11,6 +11,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { Section, SectionHeading, Reveal } from '@/lib/ui';
+import { Link } from 'react-router';
 import { api, type Tool } from '@/lib/api';
 
 const ICONS: Record<string, LucideIcon> = {
@@ -49,8 +50,8 @@ export default function Tools() {
           const Icon = ICONS[tool.icon] ?? Sparkles;
           return (
             <Reveal key={tool.id} delay={i * 0.06}>
-              <a
-                href={tool.href}
+              <Link
+                to={tool.href}
                 className="plate card-hover group block h-full rounded-sm border border-ink/10 p-6"
               >
                 <div className="mb-5 flex items-start justify-between">
@@ -69,7 +70,7 @@ export default function Tools() {
                   {tool.action_label}
                   <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </span>
-              </a>
+              </Link>
             </Reveal>
             );
           })}

@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router';
 import { Search, X } from 'lucide-react';
 import { api, brl, brl2, type Veiculo } from '@/lib/api';
 import { Section } from '@/lib/ui';
+import { usePageMeta } from '@/lib/usePageMeta';
 
 const MAX_SLOTS = 3;
 const DEBOUNCE_MS = 300;
@@ -29,9 +30,7 @@ export default function Comparar() {
   const [precoLitro, setPrecoLitro] = useState('6,20');
   const rootRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    document.title = 'Comparar — Volante';
-  }, []);
+  usePageMeta({ title: 'Comparar veículos — Volante', canonical: '/comparar' });
 
   // Fecha dropdowns ao clicar fora
   useEffect(() => {

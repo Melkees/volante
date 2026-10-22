@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { Suspense, lazy, useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router'
 import { MotionConfig } from 'framer-motion'
 import Navbar from '@/components/Navbar'
@@ -6,24 +6,26 @@ import CommandSearch from '@/components/CommandSearch'
 import CookieBar from '@/components/CookieBar'
 import Footer from '@/components/Footer'
 import Home from '@/pages/Home'
-import Busca from '@/pages/Busca'
 import NotFound from '@/pages/NotFound'
-import Sobre from '@/pages/Sobre'
-import Privacidade from '@/pages/Privacidade'
-import Termos from '@/pages/Termos'
-import FinanciamentoPage from '@/pages/Financiamento'
-import CalculadoraPage from '@/pages/Calculadora'
-import RankingsPage from '@/pages/Rankings'
-import Comparar from '@/pages/Comparar'
-import Decida from '@/pages/Decida'
-import Veiculo from '@/pages/Veiculo'
-import Blog from '@/pages/Blog'
-import BlogPost from '@/pages/BlogPost'
-import SignIn from '@/pages/SignIn'
-import SignUp from '@/pages/SignUp'
-import Favoritos from '@/pages/Favoritos'
-import Parceiros from '@/pages/Parceiros'
-import ParceiroTipo from '@/pages/ParceiroTipo'
+
+// Code splitting por rota: home e 404 no chunk principal, resto sob demanda.
+const Busca = lazy(() => import('@/pages/Busca'))
+const Sobre = lazy(() => import('@/pages/Sobre'))
+const Privacidade = lazy(() => import('@/pages/Privacidade'))
+const Termos = lazy(() => import('@/pages/Termos'))
+const FinanciamentoPage = lazy(() => import('@/pages/Financiamento'))
+const CalculadoraPage = lazy(() => import('@/pages/Calculadora'))
+const RankingsPage = lazy(() => import('@/pages/Rankings'))
+const Comparar = lazy(() => import('@/pages/Comparar'))
+const Decida = lazy(() => import('@/pages/Decida'))
+const Veiculo = lazy(() => import('@/pages/Veiculo'))
+const Blog = lazy(() => import('@/pages/Blog'))
+const BlogPost = lazy(() => import('@/pages/BlogPost'))
+const SignIn = lazy(() => import('@/pages/SignIn'))
+const SignUp = lazy(() => import('@/pages/SignUp'))
+const Favoritos = lazy(() => import('@/pages/Favoritos'))
+const Parceiros = lazy(() => import('@/pages/Parceiros'))
+const ParceiroTipo = lazy(() => import('@/pages/ParceiroTipo'))
 
 /** Volta ao topo em cada troca de rota (ScrollRestoration do v7 exige data router). */
 function ScrollToTop() {
@@ -32,6 +34,16 @@ function ScrollToTop() {
     window.scrollTo(0, 0);
   }, [pathname]);
   return null;
+}
+
+function Rota() {
+  return (
+    <div role="status" className="mx-auto max-w-6xl px-4 py-16 md:px-6">
+      <span className="sr-only">Carregando…</span>
+      <div aria-hidden className="h-8 w-64 max-w-full animate-pulse rounded-sm bg-surface-2" />
+      <div aria-hidden className="mt-4 h-4 w-96 max-w-full animate-pulse rounded-sm bg-surface-2" />
+    </div>
+  );
 }
 
 export default function App() {
@@ -48,6 +60,7 @@ export default function App() {
         <CommandSearch />
         <ScrollToTop />
         <div id="conteudo">
+          <Suspense fallback={<Rota />}>
           <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/busca" element={<Busca />} />
@@ -71,6 +84,7 @@ export default function App() {
           <Route path="/favoritos" element={<Favoritos />} />
           <Route path="*" element={<NotFound />} />
           </Routes>
+          </Suspense>
         </div>
         <Footer />
         <CookieBar />

@@ -95,12 +95,19 @@ export default function CommandSearch() {
     };
   }, [load]);
 
+  // Monta o dialog só quando aberto: o título sr-only do CommandDialog fica
+  // fora do DialogContent e, se sempre montado, duplica o h1 da página /busca
+  // para leitores de tela. O atalho "/" e o botão seguem funcionando — os
+  // listeners de evento ficam no componente pai, sempre ativos.
+  if (!open) return null;
+
   return (
     <CommandDialog
       open={open}
       onOpenChange={setOpen}
       title="Buscar no Volante"
       description="Categorias, ferramentas e veículos"
+      aria-label="Buscar no Volante"
       className="border-ink/10 bg-popover/98 backdrop-blur-sm sm:max-w-xl"
     >
       <CommandInput

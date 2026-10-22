@@ -1,8 +1,10 @@
 // [S8] Financiamento interativo — sliders + 4 modalidades calculadas AO VIVO.
+// N9: consórcio com taxa de administração real (~18%), assinatura fora da
+//     disputa de menor custo (não há posse do veículo) e selo no vencedor real.
 import { useEffect, useMemo, useState } from 'react';
 import { Car } from 'lucide-react';
 import { Section, SectionHeading, Reveal } from '@/lib/ui';
-import { api, brl, type FinanciamentoHighlight } from '@/lib/api';
+import { api, brl, brl2, type FinanciamentoHighlight } from '@/lib/api';
 import { Slider } from '@/components/ui/slider';
 
 interface Modalidade {
@@ -26,13 +28,16 @@ export default function Financing() {
   const [data, setData] = useState<FinanciamentoHighlight | null>(null);
   const [valor, setValor] = useState<number | null>(null);
   const [entrada, setEntrada] = useState<number | null>(null);
+  const [erro, setErro] = useState(false);
 
   useEffect(() => {
-    api.highlights().then((h) => {
-      setData(h.financiamento);
-      setValor(h.financiamento.params.valor_padrao);
-      setEntrada(h.financiamento.params.entrada_pct);
-    });
+    api.highlights()
+      .then((h) => {
+        setData(h.financiamento);
+        setValor(h.financiamento.params.valor_padrao);
+        setEntrada(h.financiamento.params.entrada_pct);
+      })
+      .catch(() => setErro(true));
   }, []);
 
   const pv = valor != null && entrada != null ? valor * (1 - entrada / 100) : 0;
@@ -42,22 +47,44 @@ export default function Financing() {
     if (!p) return [];
     const cdc = pmt(pv, p.cdc.taxa_mes, p.cdc.meses);
     const leasing = pmt(pv, p.leasing.taxa_mes, p.leasing.meses);
-    const consorcio = pv / p.consorcio.meses;
+    // N9: consórcio real tem taxa de administração sobre o valor financiado
+    // (~18%); o payload velho não traz o campo — 18% é o correto de mercado.
+    const taxaAdm = p.consorcio.taxa_adm ?? 0.18;
+    const consorcioTotal = pv * (1 + taxaAdm);
+    const consorcio = consorcioTotal / p.consorcio.meses;
     const assinatura = p.assinatura.mensalidade;
+    const assinaturaMeses = p.assinatura.meses ?? 48;
     return [
       { nome: 'CDC', parcela: cdc, meses: p.cdc.meses, total: cdc * p.cdc.meses, nota: null, fixa: false },
       { nome: 'Leasing', parcela: leasing, meses: p.leasing.meses, total: leasing * p.leasing.meses, nota: null, fixa: false },
-      { nome: 'Consórcio', parcela: consorcio, meses: p.consorcio.meses, total: consorcio * p.consorcio.meses, nota: '0% de juros', fixa: false },
-      { nome: 'Assinatura', parcela: assinatura, meses: 48, total: assinatura * 48, nota: 'Sem entrada', fixa: true },
+      {
+        nome: 'Consórcio',
+        parcela: consorcio,
+        meses: p.consorcio.meses,
+        total: consorcioTotal,
+        nota: `inclui taxa de adm. ~${Math.round(taxaAdm * 100)}%`,
+        fixa: false,
+      },
+      {
+        nome: 'Assinatura',
+        parcela: assinatura,
+        meses: assinaturaMeses,
+        total: assinatura * assinaturaMeses,
+        nota: 'Sem entrada',
+        fixa: true,
+      },
     ];
   }, [data, pv]);
 
-  const vencedor = modalidades.length
-    ? modalidades.reduce((min, m) => (m.total < min.total ? m : min))
+  // N9: "menor custo total" é disputado SÓ entre CDC, Leasing e Consórcio —
+  // na assinatura você não fica com o carro, então ela não concorre.
+  const disputa = modalidades.filter((m) => !m.fixa);
+  const vencedor = disputa.length
+    ? disputa.reduce((min, m) => (m.total < min.total ? m : min))
     : null;
   const maxTotal = modalidades.length ? Math.max(...modalidades.map((m) => m.total)) : 0;
 
-  // Selo do payload ("Consórcio: menor custo total") adaptado ao vencedor real.
+  // Selo no vencedor real da disputa (muda conforme valor/entrada com a taxa adm).
   const selo = vencedor ? `${vencedor.nome}: menor custo total` : null;
 
   return (
@@ -66,10 +93,15 @@ export default function Financing() {
         eyebrow="FINANCIAMENTO"
         title="Simule as"
         highlight="4 modalidades ao vivo"
-        sub="CDC, Leasing, Consórcio e Assinatura comparados em tempo real, com destaque automático do menor custo total."
+        sub="CDC, Leasing, Consórcio e Assinatura comparados em tempo real — o menor custo total considera só os financiamentos (na assinatura você não fica com o carro)."
       />
 
-      <div className="grid gap-6 lg:grid-cols-[380px_1fr]">
+      {erro && !data ? (
+        <p className="py-8 text-center text-sm text-muted-foreground">
+          Dados indisponíveis no momento
+        </p>
+      ) : (
+      <div className="grid items-stretch gap-6 lg:grid-cols-[380px_1fr]">
         {/* Controles */}
         <Reveal>
           <div className="plate h-full rounded-sm border border-ink/10 p-6 md:p-8">
@@ -139,7 +171,7 @@ export default function Financing() {
 
         {/* Tabela ao vivo */}
         <Reveal delay={0.1}>
-          <div className="plate rounded-sm border border-ink/10 p-6 md:p-8">
+          <div className="plate h-full rounded-sm border border-ink/10 p-6 md:p-8">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
               <p className="font-display font-medium">Comparativo de modalidades</p>
               {selo && (
@@ -171,7 +203,7 @@ export default function Financing() {
                       </span>
                       <span className="font-display font-semibold">
                         {m.fixa ? '' : `${m.meses}x `}
-                        {brl(m.parcela)}
+                        {brl2(m.parcela)}
                         {m.fixa && <span className="text-sm text-muted-foreground">/mês</span>}
                       </span>
                     </div>
@@ -184,7 +216,9 @@ export default function Financing() {
                       />
                     </div>
                     <p className="mt-2 text-sm text-muted-foreground">
-                      Total financiado: {brl(m.total)}
+                      {m.fixa
+                        ? `Total pago em ${m.meses} meses (sem posse do veículo): ${brl(m.total)}`
+                        : `Total financiado: ${brl(m.total)}`}
                       {m.nota && <span> · {m.nota}</span>}
                       {m.fixa && (
                         <span className="block text-xs">Valor de referência (não varia com o carro)</span>
@@ -201,6 +235,7 @@ export default function Financing() {
           </div>
         </Reveal>
       </div>
+      )}
     </Section>
   );
 }

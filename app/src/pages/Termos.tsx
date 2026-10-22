@@ -1,11 +1,17 @@
-// Página "Termos de uso" — versão preliminar, linguagem direta.
-import { useEffect } from 'react';
+// Página "Termos de uso" — linguagem direta, alinhada à Política de Privacidade.
+import { useLocation } from 'react-router';
+import { Link } from 'react-router';
 import { Section } from '@/lib/ui';
+import { usePageMeta } from '@/lib/usePageMeta';
 
 export default function Termos() {
-  useEffect(() => {
-    document.title = 'Termos — Volante';
-  }, []);
+  const { pathname } = useLocation();
+  usePageMeta({
+    title: 'Termos de uso — Volante',
+    description:
+      'Condições de uso do Volante: serviço gratuito, origem dos dados e limites de responsabilidade.',
+    canonical: pathname,
+  });
 
   return (
     <Section className="bg-background">
@@ -41,6 +47,19 @@ export default function Termos() {
             Antes de qualquer decisão, <strong className="font-semibold text-foreground">consulte sempre as fontes oficiais</strong>{' '}
             e os documentos do veículo. O Volante não intermedia negociações e não se
             responsabiliza por decisões tomadas com base nas informações aqui exibidas.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">Conta e dados.</strong> Criar conta é
+            opcional e gratuito; ao fazê-lo, você concorda que guardemos nome, e-mail e senha para
+            manter seu acesso e seus favoritos. O que coletamos, por quê e por quanto tempo está
+            detalhado na{' '}
+            <Link
+              to="/privacidade"
+              className="font-medium text-foreground underline decoration-ink/30 underline-offset-4 hover:decoration-primary"
+            >
+              Política de Privacidade
+            </Link>
+            , que faz parte destes termos.
           </p>
         </div>
       </div>

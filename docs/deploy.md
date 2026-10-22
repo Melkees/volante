@@ -67,6 +67,48 @@ pm2 start server/index.mjs --name volante
 3. Regenerar `og.jpg` se trocar o hero.
 4. `docs/asset-provenance.md`: atualizar se novas fontes de dados entrarem.
 
+## Banco transacional (DATABASE_URL) — obrigatório no Render free
+
+O disco do plano free do Render é efêmero: contas, sessões, favoritos, leads e o
+uso anônimo da recomendação gravados localmente **somem a cada restart ou volta
+do sono**. Por isso o servidor aceita a env var `DATABASE_URL`: quando ela
+existe, as 5 tabelas transacionais (`users`, `sessions`, `favoritos`, `leads`,
+`anon_ia`) vão para Postgres e `/api/health` passa a reportar `"driver":"postgres"`.
+O catálogo (FIPE, rankings, posts) segue no armazenamento local — o seed roda a
+cada boot e o repovoa, é read-only no runtime.
+
+- **Render Postgres free**: crie em Render → Postgres → copie a "External
+  Database URL" para a env var `DATABASE_URL` do web service. Atenção: o plano
+  free de Postgres **expira** (instância por 30 dias) — para o site no ar de
+  verdade, use um provedor que não expire.
+- **Neon ou Supabase** funcionam igual: copie a connection string do painel
+  deles para a mesma `DATABASE_URL` (o driver é `pg` padrão, com SSL). As
+  tabelas são criadas sozinhas no boot (`CREATE TABLE IF NOT EXISTS`).
+- Em dev local, sem `DATABASE_URL`, tudo continua funcionando em sqlite/JSON
+  como antes.
+
+## Keep-alive opcional (cold start)
+
+O web service free adormece após 15 min sem acesso (primeira visita seguinte:
+~40s em branco). Um ping externo a cada 10 min em `/api/health` (cron-job.org ou
+UptimeRobot, grátis) mantém o serviço acordado — mas consome as ~750 h/mês do
+plano free, ou seja, o app fica sem folga de horário no mês. Quando for
+divulgar, considere Render Starter.
+
+## O que mudou no servidor (out/2026)
+
+- **Rate limit**: POSTs de cadastro, login, leads e recomendação limitados a
+  20 req/IP por 15 min (429 com `{"erro"}` acima disso).
+- **Cookie de sessão `Secure`** quando a requisição chega por HTTPS
+  (`x-forwarded-proto: https`); em http local segue sem o flag.
+- **HSTS** ligado (`max-age=31536000; includeSubDomains`).
+- **Redirects canônicos**: caminhos com maiúsculas ou barra final caem em 301
+  para a forma canônica (minúsculas, sem barra); `/veiculo/<id>` e
+  `/blog/<slug>` inexistentes agora respondem **404 de verdade**.
+- **404 da API em JSON** (`/api/qualquer-coisa` → `{"erro":"Rota não encontrada"}`).
+- **`/robots.txt` e `/sitemap.xml`**: o sitemap lista rotas fixas, posts e todos
+  os veículos com preço FIPE (~7.5k URLs), gerado uma vez por boot.
+
 ## Fontes dos dados (pra reprocessar)
 
 - Catálogo + histórico: dataset `alanwgt/fipex-veiculos-brasil` (HuggingFace), pastas

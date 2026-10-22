@@ -36,18 +36,25 @@ export interface Rankings {
 export interface PaybackParams {
   km_mes: number;
   gasolina: number;
+  /** preço do etanol R$/L (payload novo; o velho não traz — fallback: preco_combustiveis.etanol) */
+  etanol?: number;
   energia: number;
-  economia_5_anos_valor: number;
-  carros: { nome: string; tipo: 'gasolina' | 'hibrido' | 'eletrico'; consumo: number }[];
+  carros: {
+    nome: string;
+    tipo: 'gasolina' | 'etanol' | 'hibrido' | 'eletrico';
+    consumo: number;
+    /** preço FIPE (payload novo); sem preço o payback em meses não é exibido */
+    preco?: number;
+  }[];
 }
 
+// B4/B5: sem economia_5_anos / equilibrio / economia_5_anos_valor — economia e
+// payback passam a ser calculados ao vivo no cliente a partir de params.
 export interface PaybackHighlight {
   badge: string;
-  economia_5_anos: string;
   comparacao: string;
-  preco_combustiveis: { gasolina: string; energia: string };
+  preco_combustiveis: { gasolina: string; etanol?: string; energia: string };
   custos_mensais: { veiculo: string; detalhe: string | null; valor: string }[];
-  equilibrio: { texto: string; meses: number }[];
   chips: string[];
   params: PaybackParams;
 }
@@ -69,8 +76,14 @@ export interface FinanciamentoParams {
   entrada_pct: number;
   cdc: { meses: number; taxa_mes: number };
   leasing: { meses: number; taxa_mes: number };
-  consorcio: { meses: number; taxa_mes: number };
-  assinatura: { mensalidade: number };
+  consorcio: {
+    meses: number;
+    /** taxa de administração sobre o valor financiado (payload novo; ausente ⇒ 18%, N9) */
+    taxa_adm?: number;
+    taxa_mes?: number;
+  };
+  /** assinatura não dá posse do veículo — fora da disputa de menor custo (N9) */
+  assinatura: { mensalidade: number; /** payload novo; ausente ⇒ 48 */ meses?: number };
 }
 
 export interface FinanciamentoHighlight {
@@ -179,7 +192,9 @@ async function erroDe(res: Response, fallback: string): Promise<string> {
     const j = await res.json();
     if (j && typeof j.erro === 'string') return j.erro;
   } catch { /* corpo não-JSON */ }
-  return `${fallback} → ${res.status}`;
+  // Detalhe técnico só no console — o usuário recebe mensagem amigável (N12).
+  console.error(`${fallback} → ${res.status}`);
+  return 'Algo deu errado. Tente de novo.';
 }
 
 export interface User {
@@ -192,7 +207,18 @@ export const api = {
   stats: () => get<{ hero: StatRow[]; rankings: StatRow[] }>('/api/stats'),
   categories: () => get<Category[]>('/api/categories'),
   rankings: () => get<Rankings>('/api/rankings'),
-  highlights: () => get<Highlights>('/api/highlights'),
+  // N8: /api/highlights é consumido por 3 seções da home — uma única Promise
+  // compartilhada; em falha, o cache é limpo para permitir retry.
+  highlights: (() => {
+    let _hl: Promise<Highlights> | null = null;
+    return () => {
+      _hl ??= get<Highlights>('/api/highlights').catch((e) => {
+        _hl = null;
+        throw e;
+      });
+      return _hl;
+    };
+  })(),
   tools: () => get<Tool[]>('/api/tools'),
   veiculos: (query: VeiculosQuery = {}) => {
     const params = new URLSearchParams();

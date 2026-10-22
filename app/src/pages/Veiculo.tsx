@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router';
 import { Heart } from 'lucide-react';
 import { api, brl, brl2, type HistoricoPonto, type VeiculoDetalhe } from '@/lib/api';
 import { Section } from '@/lib/ui';
+import { usePageMeta } from '@/lib/usePageMeta';
 
 const MESES_PT = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
 
@@ -19,7 +20,8 @@ function Sparkline({ historico }: { historico: HistoricoPonto[] }) {
 
   const W = 560;
   const H = 140;
-  const PAD_X = 8;
+  // N23: margem esquerda ≥48px para o rótulo "R$ 10.892" não sair cortado.
+  const PAD_X = 56;
   const PAD_Y = 18;
 
   const precos = historico.map((h) => h.preco);
@@ -130,24 +132,32 @@ export default function Veiculo() {
     };
   }, [id]);
 
+  // N12: falha de favoritar nunca fica em silêncio — reverte o coração e avisa.
+  const [erroFavorito, setErroFavorito] = useState(false);
+
   const alternarFavorito = async () => {
     const vid = Number(id);
+    const anterior = sessao.favorito;
+    setErroFavorito(false);
+    setSessao((s) => ({ ...s, favorito: !anterior }));
     try {
-      if (sessao.favorito) {
+      if (anterior) {
         await api.desfavoritar(vid);
-        setSessao((s) => ({ ...s, favorito: false }));
       } else {
         await api.favoritar(vid);
-        setSessao((s) => ({ ...s, favorito: true }));
       }
+      setSessao((s) => ({ ...s, favorito: !anterior }));
     } catch {
-      /* mantém estado atual */
+      setSessao((s) => ({ ...s, favorito: anterior })); // reverte o coração
+      setErroFavorito(true);
+      window.setTimeout(() => setErroFavorito(false), 5000);
     }
   };
 
-  useEffect(() => {
-    document.title = dados ? `${dados.veiculo.nome} — Volante` : 'Veículo — Volante';
-  }, [dados]);
+  usePageMeta({
+    title: dados ? `${dados.veiculo.nome} — Volante` : 'Veículo — Volante',
+    canonical: `/veiculo/${id ?? ''}`,
+  });
 
   if (erro) {
     return (
@@ -339,6 +349,11 @@ export default function Veiculo() {
             Voltar à busca
           </Link>
         </div>
+        {erroFavorito && (
+          <p role="alert" className="mt-3 text-sm text-muted-foreground">
+            Algo deu errado ao favoritar. Tente de novo.
+          </p>
+        )}
       </Section>
     </main>
   );
