@@ -20,7 +20,7 @@ console.log('[seed] driver:', getDriver());
 // a cada cold start era desperdício puro. A versão do seed fica num board de
 // metadados (invisível pra API — só os 5 boards conhecidos são expostos) e,
 // se já bate com esta, o seed sai sem tocar o banco. FORCE_SEED=1 recarrega.
-const SEED_VERSAO = '2026-10-22-v3';
+const SEED_VERSAO = '2026-10-22-v4';
 if (getRankingBoard('seed_meta')?.[0]?.name === SEED_VERSAO && !process.env.FORCE_SEED) {
   console.log(`[seed] versão ${SEED_VERSAO} já aplicada — nada a fazer (FORCE_SEED=1 recarrega)`);
   process.exit(0);

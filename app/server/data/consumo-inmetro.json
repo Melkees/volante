@@ -1,0 +1,506 @@
+[
+ {
+  "chave": "FIAT STRADA",
+  "consumo_cidade": 12.6,
+  "consumo_estrada": 13.9,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VOLKSWAGEN POLO",
+  "consumo_cidade": 13.1,
+  "consumo_estrada": 15.9,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "BYD DOLPHIN MINI",
+  "consumo_cidade": 8.8,
+  "consumo_estrada": null,
+  "combustivel": "Elétrico"
+ },
+ {
+  "chave": "VOLKSWAGEN T-CROSS",
+  "consumo_cidade": 12.1,
+  "consumo_estrada": 14.4,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VOLKSWAGEN TERA",
+  "consumo_cidade": 12.6,
+  "consumo_estrada": 14.8,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT ARGO",
+  "consumo_cidade": 12.9,
+  "consumo_estrada": 14.5,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT PULSE",
+  "consumo_cidade": 12.5,
+  "consumo_estrada": 14.5,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "CHEVROLET ONIX",
+  "consumo_cidade": 12.1,
+  "consumo_estrada": 15.3,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "GWM HAVAL H6",
+  "consumo_cidade": 14.7,
+  "consumo_estrada": 11.4,
+  "combustivel": "Híbrido"
+ },
+ {
+  "chave": "FIAT MOBI",
+  "consumo_cidade": 14.3,
+  "consumo_estrada": 15.5,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "HYUNDAI HB20",
+  "consumo_cidade": 13.3,
+  "consumo_estrada": 15.4,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "RENAULT KWID",
+  "consumo_cidade": 14.4,
+  "consumo_estrada": 15.4,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT TORO",
+  "consumo_cidade": 9.4,
+  "consumo_estrada": 10.8,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "CHEVROLET ONIX PLUS",
+  "consumo_cidade": 12.2,
+  "consumo_estrada": 16.0,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "TOYOTA YARIS CROSS",
+  "consumo_cidade": 12.6,
+  "consumo_estrada": 14.3,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "HYUNDAI CRETA",
+  "consumo_cidade": 12.0,
+  "consumo_estrada": 12.7,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT FASTBACK",
+  "consumo_cidade": 11.3,
+  "consumo_estrada": 13.6,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VOLKSWAGEN SAVEIRO",
+  "consumo_cidade": 11.3,
+  "consumo_estrada": 12.4,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "CHEVROLET TRACKER",
+  "consumo_cidade": 11.5,
+  "consumo_estrada": 13.8,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "BYD DOLPHIN",
+  "consumo_cidade": 7.3,
+  "consumo_estrada": null,
+  "combustivel": "Elétrico"
+ },
+ {
+  "chave": "CAOA CHERY TIGGO 7",
+  "consumo_cidade": 10.4,
+  "consumo_estrada": 12.2,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "BYD SONG PRO",
+  "consumo_cidade": 15.4,
+  "consumo_estrada": 12.8,
+  "combustivel": "Híbrido Plug-in"
+ },
+ {
+  "chave": "HONDA HR-V",
+  "consumo_cidade": 11.5,
+  "consumo_estrada": 13.0,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "JEEP COMPASS",
+  "consumo_cidade": 10.1,
+  "consumo_estrada": 12.1,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "JEEP RENEGADE",
+  "consumo_cidade": 11.0,
+  "consumo_estrada": 12.2,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "OMODA 5",
+  "consumo_cidade": 15.1,
+  "consumo_estrada": 13.2,
+  "combustivel": "Híbrido"
+ },
+ {
+  "chave": "FORD RANGER",
+  "consumo_cidade": 9.2,
+  "consumo_estrada": 11.1,
+  "combustivel": "Diesel"
+ },
+ {
+  "chave": "TOYOTA COROLLA CROSS",
+  "consumo_cidade": 11.5,
+  "consumo_estrada": 13.1,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "TOYOTA HILUX",
+  "consumo_cidade": 9.3,
+  "consumo_estrada": 10.0,
+  "combustivel": "Diesel"
+ },
+ {
+  "chave": "NISSAN KAIT",
+  "consumo_cidade": 11.3,
+  "consumo_estrada": 13.7,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VOLKSWAGEN NIVUS",
+  "consumo_cidade": 12.4,
+  "consumo_estrada": 14.8,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "HONDA WR-V",
+  "consumo_cidade": 12.0,
+  "consumo_estrada": 12.8,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "CAOA CHERY TIGGO 5X",
+  "consumo_cidade": 10.0,
+  "consumo_estrada": 11.7,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "NISSAN KICKS",
+  "consumo_cidade": 11.7,
+  "consumo_estrada": 14.3,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "GEELY EX2",
+  "consumo_cidade": 9.2,
+  "consumo_estrada": null,
+  "combustivel": "Elétrico"
+ },
+ {
+  "chave": "CHEVROLET SONIC",
+  "consumo_cidade": 12.1,
+  "consumo_estrada": 14.8,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "CHEVROLET S10",
+  "consumo_cidade": 8.8,
+  "consumo_estrada": 11.7,
+  "combustivel": "Diesel"
+ },
+ {
+  "chave": "JAECOO 7",
+  "consumo_cidade": 15.1,
+  "consumo_estrada": 13.5,
+  "combustivel": "Híbrido Plug-in"
+ },
+ {
+  "chave": "CHEVROLET SPIN",
+  "consumo_cidade": 10.1,
+  "consumo_estrada": 13.1,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VOLKSWAGEN VIRTUS",
+  "consumo_cidade": 12.1,
+  "consumo_estrada": 14.8,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "FIAT FIORINO",
+  "consumo_cidade": 12.4,
+  "consumo_estrada": 13.6,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "HYUNDAI HB20S",
+  "consumo_cidade": 13.2,
+  "consumo_estrada": 15.3,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "RAM RAMPAGE",
+  "consumo_cidade": 8.2,
+  "consumo_estrada": 10.0,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "BYD SONG PLUS",
+  "consumo_cidade": 12.2,
+  "consumo_estrada": 10.6,
+  "combustivel": "Híbrido Plug-in"
+ },
+ {
+  "chave": "JEEP AVENGER",
+  "consumo_cidade": 12.7,
+  "consumo_estrada": 13.5,
+  "combustivel": "Híbrido"
+ },
+ {
+  "chave": "FIAT CRONOS",
+  "consumo_cidade": 13.3,
+  "consumo_estrada": 15.7,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "VOLKSWAGEN TAOS",
+  "consumo_cidade": 11.1,
+  "consumo_estrada": 13.3,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "BYD KING",
+  "consumo_cidade": 16.8,
+  "consumo_estrada": 13.3,
+  "combustivel": "Híbrido Plug-in"
+ },
+ {
+  "chave": "GEELY EX5 EM-I",
+  "consumo_cidade": 14.7,
+  "consumo_estrada": 13.2,
+  "combustivel": "Híbrido Plug-in"
+ },
+ {
+  "chave": "RENAULT MASTER",
+  "consumo_cidade": 10.1,
+  "consumo_estrada": 9.7,
+  "combustivel": "Diesel"
+ },
+ {
+  "chave": "BYD HAN",
+  "consumo_cidade": 5.2,
+  "consumo_estrada": null,
+  "combustivel": "Elétrico"
+ },
+ {
+  "chave": "BYD SEAL",
+  "consumo_cidade": 5.8,
+  "consumo_estrada": null,
+  "combustivel": "Elétrico"
+ },
+ {
+  "chave": "BYD SHARK",
+  "consumo_cidade": 8.7,
+  "consumo_estrada": 8.5,
+  "combustivel": "Híbrido Plug-in"
+ },
+ {
+  "chave": "BYD YUAN PLUS",
+  "consumo_cidade": 6.4,
+  "consumo_estrada": null,
+  "combustivel": "Elétrico"
+ },
+ {
+  "chave": "CHEVROLET EQUINOX",
+  "consumo_cidade": 9.0,
+  "consumo_estrada": 10.7,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "CHEVROLET MONTANA",
+  "consumo_cidade": 11.0,
+  "consumo_estrada": 13.5,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "CHEVROLET TRAILBLAZER",
+  "consumo_cidade": 9.4,
+  "consumo_estrada": 11.6,
+  "combustivel": "Diesel"
+ },
+ {
+  "chave": "FIAT DUCATO",
+  "consumo_cidade": 10.8,
+  "consumo_estrada": 10.5,
+  "combustivel": "Diesel"
+ },
+ {
+  "chave": "FORD BRONCO SPORT",
+  "consumo_cidade": 8.4,
+  "consumo_estrada": 10.7,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "FORD MAVERICK",
+  "consumo_cidade": 8.5,
+  "consumo_estrada": 11.1,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "FORD TERRITORY",
+  "consumo_cidade": 8.8,
+  "consumo_estrada": 11.2,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "HONDA ACCORD",
+  "consumo_cidade": 17.5,
+  "consumo_estrada": 15.6,
+  "combustivel": "Híbrido"
+ },
+ {
+  "chave": "HONDA CITY",
+  "consumo_cidade": 12.8,
+  "consumo_estrada": 15.5,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "HONDA CIVIC",
+  "consumo_cidade": 18.4,
+  "consumo_estrada": 15.9,
+  "combustivel": "Híbrido"
+ },
+ {
+  "chave": "HONDA CR-V",
+  "consumo_cidade": 14.1,
+  "consumo_estrada": 11.8,
+  "combustivel": "Híbrido"
+ },
+ {
+  "chave": "HONDA ZR-V",
+  "consumo_cidade": 10.4,
+  "consumo_estrada": 12.3,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "HYUNDAI KONA",
+  "consumo_cidade": 18.4,
+  "consumo_estrada": 16.0,
+  "combustivel": "Híbrido"
+ },
+ {
+  "chave": "HYUNDAI PALISADE",
+  "consumo_cidade": 6.8,
+  "consumo_estrada": 9.3,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "JEEP COMMANDER",
+  "consumo_cidade": 10.0,
+  "consumo_estrada": 11.5,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "JEEP GLADIATOR",
+  "consumo_cidade": 6.3,
+  "consumo_estrada": 7.1,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "JEEP WRANGLER",
+  "consumo_cidade": 7.2,
+  "consumo_estrada": 7.5,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "NISSAN SENTRA",
+  "consumo_cidade": 11.0,
+  "consumo_estrada": 14.0,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "NISSAN VERSA",
+  "consumo_cidade": 11.5,
+  "consumo_estrada": 15.0,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "RENAULT DUSTER",
+  "consumo_cidade": 10.9,
+  "consumo_estrada": 11.9,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "RENAULT KANGOO",
+  "consumo_cidade": 11.0,
+  "consumo_estrada": 11.7,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "RENAULT KARDIAN",
+  "consumo_cidade": 12.7,
+  "consumo_estrada": 13.9,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "RENAULT MEGANE",
+  "consumo_cidade": 7.1,
+  "consumo_estrada": null,
+  "combustivel": "Elétrico"
+ },
+ {
+  "chave": "RENAULT OROCH",
+  "consumo_cidade": 11.3,
+  "consumo_estrada": 11.7,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "TOYOTA COROLLA",
+  "consumo_cidade": 11.6,
+  "consumo_estrada": 14.6,
+  "combustivel": "Flex"
+ },
+ {
+  "chave": "TOYOTA RAV4",
+  "consumo_cidade": 15.3,
+  "consumo_estrada": 14.1,
+  "combustivel": "Híbrido"
+ },
+ {
+  "chave": "VOLKSWAGEN AMAROK",
+  "consumo_cidade": 8.1,
+  "consumo_estrada": 9.4,
+  "combustivel": "Diesel"
+ },
+ {
+  "chave": "VOLKSWAGEN GOLF",
+  "consumo_cidade": 9.8,
+  "consumo_estrada": 12.8,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "VOLKSWAGEN JETTA",
+  "consumo_cidade": 10.3,
+  "consumo_estrada": 13.4,
+  "combustivel": "Gasolina"
+ },
+ {
+  "chave": "VOLKSWAGEN TIGUAN",
+  "consumo_cidade": 8.9,
+  "consumo_estrada": 12.1,
+  "combustivel": "Gasolina"
+ }
+]

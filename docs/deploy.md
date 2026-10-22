@@ -125,4 +125,9 @@ divulgar, considere Render Starter.
   preciso: ler CSVs, filtrar tipo carro, 1 entrada por marca+modelo+combustível).
 - Top 50 FENABRAVE e consumo (132 modelos): coletados do CarroLens (projeto do dono,
   autorizado 21/10/26).
+- Consumo INMETRO (84 modelos, 22/10/26): Tabela PBE Veicular 2026 (18º ciclo,
+  atualização 14/ago/26) — PDF oficial do INMETRO em
+  `gov.br/inmetro/.../veiculos-automotivos-pbe-veicular`; extração e mediana por
+  modelo em `app/server/data/consumo-inmetro.json` (temporários/auditoria em
+  `~/.zcode/tmp/inmetro/`). Curado do CarroLens vence em conflito.
 - Blog: 4 posts do CarroLens (conteúdo do dono).
